@@ -1,0 +1,59 @@
+# ─────────────────────────────
+# 🔧 .NET Build Outputs
+# ─────────────────────────────
+**/bin/
+**/obj/
+out/
+publish/
+
+# ─────────────────────────────
+# 🔐 Environment / Secrets
+# ─────────────────────────────
+.env
+*.env
+.env.*
+compose.env
+docker.env
+
+# docker overrides only
+docker-compose.override.yml
+compose.override.yml
+
+# ─────────────────────────────
+# 🐳 Docker runtime
+# ─────────────────────────────
+*.pid
+*.log
+
+# ─────────────────────────────
+# 🖥️ IDE
+# ─────────────────────────────
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ─────────────────────────────
+# 🪟 OS
+# ─────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─────────────────────────────
+# 📦 Node (future-proof)
+# ─────────────────────────────
+node_modules/
+
+# ─────────────────────────────
+# 🚀 CI cache
+# ─────────────────────────────
+.github/.cache/
+
+# ─────────────────────────────
+# ⚙️ Local scripts (exclude from repo)
+# ─────────────────────────────
+GameService/*.bat
+GameService/*.cmd
+GameService/*.sh
