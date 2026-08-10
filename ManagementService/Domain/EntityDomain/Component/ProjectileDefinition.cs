@@ -1,0 +1,30 @@
+﻿using Domain.Abstraction;
+
+namespace Domain.EntityDomain.Component
+{
+    public class ProjectileDefinition : ComponentDefinition
+    {
+        #region Attributes
+        #endregion
+
+        #region Properties
+        public float Velocity { get; private set; }
+        public string? OnImpactSpawnEntityDefinitionID { get; private set; }
+        #endregion
+
+        protected ProjectileDefinition() : base() { }
+
+        public ProjectileDefinition(
+            Guid id,
+            string entityDefinitionId,
+            string? onImpactSpawnEntityDefinitionId,
+            float velocity) : base(id, entityDefinitionId)
+        {
+            Velocity = velocity;
+            OnImpactSpawnEntityDefinitionID = onImpactSpawnEntityDefinitionId;
+        }
+
+        #region Methods
+        #endregion
+    }
+}
