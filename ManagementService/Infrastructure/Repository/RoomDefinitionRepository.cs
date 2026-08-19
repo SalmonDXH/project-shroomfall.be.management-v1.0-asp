@@ -1,11 +1,10 @@
 ﻿using Application.Interface.Repository;
-using Domain.WorldDomain;
+using Contract.Enum.WorldDomain;
 using EFCore.BulkExtensions;
+using Domain.WorldDomain;
 using Infrastructure.Persistence;
 using Infrastructure.Repository.Base;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
-using System.Data.Entity.Core.Metadata.Edm;
 
 namespace Infrastructure.Repository
 {

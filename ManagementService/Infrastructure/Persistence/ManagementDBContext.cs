@@ -6,7 +6,6 @@ using Domain.LocalizationDomain;
 using Domain.MetaDomain;
 using Domain.WorldDomain;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 using System.Text.Json;
 
 namespace Infrastructure.Persistence
@@ -940,44 +939,95 @@ namespace Infrastructure.Persistence
 
             modelBuilder.Entity<EntitySpawnRule>(entity =>
             {
-            // ─────────────────────────────
-            // Table
-            // ─────────────────────────────
-            entity.ToTable("EntitySpawnRules");
+                // ─────────────────────────────
+                // Table
+                // ─────────────────────────────
+                entity.ToTable("EntitySpawnRules");
 
-            // ─────────────────────────────
-            // Primary Key
-            // ─────────────────────────────
-            entity.HasKey(x => x.ID);
+                // ─────────────────────────────
+                // Primary Key
+                // ─────────────────────────────
+                entity.HasKey(x => x.ID);
 
-            // ─────────────────────────────
-            // Properties
-            // ─────────────────────────────
-            entity.Property(x => x.Type)
-                .HasConversion<string>()
-                .IsRequired();
-            entity.Property(x => x.MinX)
-                .IsRequired();
-            entity.Property(x => x.MinY)
-                .IsRequired();
-            entity.Property(x => x.MaxX)
-                .IsRequired();
-            entity.Property(x => x.MaxY)
-                .IsRequired();
-            entity.Property(x => x.MinCount)
-                .IsRequired();
-            entity.Property(x => x.MaxCount)
-                .IsRequired();
-            entity.Property(x => x.RoomDefinitionID)
-                .IsRequired();
-            entity.Property(x => x.EntityDefinitionID)
-                .IsRequired();
+                // ─────────────────────────────
+                // Properties
+                // ─────────────────────────────
+                entity.Property(x => x.Type)
+                    .HasConversion<string>()
+                    .IsRequired();
+                entity.Property(x => x.MinX)
+                    .IsRequired();
+                entity.Property(x => x.MinY)
+                    .IsRequired();
+                entity.Property(x => x.MaxX)
+                    .IsRequired();
+                entity.Property(x => x.MaxY)
+                    .IsRequired();
+                entity.Property(x => x.MinCount)
+                    .IsRequired();
+                entity.Property(x => x.MaxCount)
+                    .IsRequired();
+                entity.Property(x => x.RoomDefinitionID)
+                    .IsRequired();
+                entity.Property(x => x.EntityDefinitionID)
+                    .IsRequired();
 
-            // ─────────────────────────────
-            // Relationships
-            // ─────────────────────────────
-            entity.HasOne(x => x.RoomDefinition)
-                .WithMany(r => r.EntitySpawnRules)
-                .HasForeignKey(x => x.RoomDefinitionID)
-                .OnDelete(DeleteBehavior.Cascade);
-            ... (3 KB left)
+                // ─────────────────────────────
+                // Relationships
+                // ─────────────────────────────
+                entity.HasOne(x => x.RoomDefinition)
+                    .WithMany(r => r.EntitySpawnRules)
+                    .HasForeignKey(x => x.RoomDefinitionID)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(x => x.EntityDefinition)
+                    .WithMany()
+                    .HasForeignKey(x => x.EntityDefinitionID)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                // ─────────────────────────────
+                // Indexes
+                // ─────────────────────────────
+                entity.HasIndex(x => x.RoomDefinitionID);
+                entity.HasIndex(x => x.EntityDefinitionID);
+            });
+            #endregion
+
+            #region Global
+            modelBuilder.Entity<DefinitionVersionLog>(entity =>
+            {
+                // ─────────────────────────────
+                // Table
+                // ─────────────────────────────
+                entity.ToTable("DefinitionVersionLogs");
+
+                // ─────────────────────────────
+                // Primary Key
+                // ─────────────────────────────
+                entity.HasKey(x => x.ID);
+
+                // ─────────────────────────────
+                // Properties
+                // ─────────────────────────────
+                entity.Property(x => x.Key)
+                    .HasMaxLength(50)
+                    .IsRequired();
+                entity.Property(x => x.Version)
+                    .IsRequired();
+                entity.Property(x => x.Description)
+                    .HasMaxLength(500);
+                entity.Property(x => x.CreatedAt)
+                    .IsRequired();
+
+                // ─────────────────────────────
+                // Indexes
+                // ─────────────────────────────
+                entity.HasIndex(x => new { x.Key, x.Version });
+                entity.HasIndex(x => x.CreatedAt);
+                entity.HasIndex(x => new { x.Key, x.Version })
+                    .IsUnique();
+            });
+            #endregion
+        }
+        #endregion
+    }
+}

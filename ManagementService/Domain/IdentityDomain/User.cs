@@ -1,7 +1,6 @@
 ﻿using Contract.Enum.IdentityDomain;
 using Domain.DomainException;
 using ResponseCode;
-using System.Data;
 
 namespace Domain.IdentityDomain
 {

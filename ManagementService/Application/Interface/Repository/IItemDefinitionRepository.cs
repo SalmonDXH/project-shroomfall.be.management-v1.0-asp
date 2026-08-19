@@ -1,4 +1,5 @@
 ﻿using Application.Interface.Repository.Base;
+using Contract.Enum.MetaDomain.Item;
 using Domain.MetaDomain;
 
 namespace Application.Interface.Repository

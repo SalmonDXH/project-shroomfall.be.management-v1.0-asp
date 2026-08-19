@@ -3,7 +3,6 @@ using Domain.EntityDomain.Component;
 using Infrastructure.Persistence;
 using Infrastructure.Repository.Base;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
 
 namespace Infrastructure.Repository
 {

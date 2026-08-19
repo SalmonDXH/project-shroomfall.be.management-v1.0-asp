@@ -1,7 +1,6 @@
 ﻿using Contract.Enum.EntityDomain;
 using Domain.Abstraction;
 using Domain.DomainException;
-using Domain.Shared;
 using ResponseCode;
 
 namespace Domain.EntityDomain.Component

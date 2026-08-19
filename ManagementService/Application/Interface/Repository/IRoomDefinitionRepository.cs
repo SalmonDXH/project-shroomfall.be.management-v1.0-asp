@@ -1,4 +1,5 @@
 ﻿using Application.Interface.Repository.Base;
+using Contract.Enum.WorldDomain;
 using Domain.WorldDomain;
 
 namespace Application.Interface.Repository

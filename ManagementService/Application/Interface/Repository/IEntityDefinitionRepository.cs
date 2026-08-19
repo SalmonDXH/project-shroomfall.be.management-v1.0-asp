@@ -1,4 +1,5 @@
 ﻿using Application.Interface.Repository.Base;
+using Contract.Enum.EntityDomain;
 using Domain.EntityDomain;
 
 namespace Application.Interface.Repository

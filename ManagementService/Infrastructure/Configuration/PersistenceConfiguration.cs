@@ -1,13 +1,8 @@
-﻿using Contract.Enum.MetaDomain.Effect;
-using Contract.Enum.MetaDomain.Item;
-using Domain.Abstraction;
-using Domain.DomainException;
+﻿using Domain.DomainException;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ResponseCode;
-using System.Runtime.InteropServices;
-using System.Text.Json;
 
 namespace Infrastructure.Configuration
 {
@@ -32,7 +27,6 @@ namespace Infrastructure.Configuration
 
             services.AddDbContext<RelationalDB>(options =>
                 options.UseSqlServer(sqlConnection));
-
 
             return services;
         }

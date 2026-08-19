@@ -3,7 +3,6 @@ using Domain.DomainException;
 using Infrastructure.Utility;
 using Microsoft.Extensions.DependencyInjection;
 using ResponseCode;
-using System.Runtime.InteropServices;
 
 namespace Infrastructure.Configuration
 {
@@ -19,6 +18,8 @@ namespace Infrastructure.Configuration
         public static IServiceCollection AddUtilityConfiguration(
             this IServiceCollection services)
         {
+            // Telemetry queue
+            services.AddSingleton<ITelemetryQueue, TelemetryQueue>();
 
             // JWT token
             services.AddSingleton<ITokenGenerator, TokenGenerator>(sp =>
