@@ -21,7 +21,7 @@ namespace Infrastructure.Repository.Base
         #region Properties
         #endregion
 
-        public RelationalUoW(
+        public UnitOfWork(
             RelationalDB context,
             IServiceProvider provider)
         {
