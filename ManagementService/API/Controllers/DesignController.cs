@@ -45,6 +45,48 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpGet("effects")]
+        public async Task<ActionResult<PagedResponseDTO<EffectDefinitionDTO>>> GetAllEffects(
+            [FromQuery] EffectDefinitionQueryDTO queries)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            var result = await dispatcher.Send<FetchEffectDefinitionCommand, PagedResponseDTO<EffectDefinitionDTO>>(
+                new FetchEffectDefinitionCommand(userId, queries)
+            );
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpGet("entities")]
+        public async Task<ActionResult<PagedResponseDTO<EntityDefinitionDTO>>> GetAllEntities(
+            [FromQuery] EntityDefinitionQueryDTO queries)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            var result = await dispatcher.Send<FetchEntityDefinitionCommand, PagedResponseDTO<EntityDefinitionDTO>>(
+                new FetchEntityDefinitionCommand(userId, queries)
+            );
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpGet("entities/{id}")]
+        public async Task<ActionResult<EffectDefinitionDTO>> GetEntityDefinitionDetail(
+            [FromRoute] string id)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            var result = await dispatcher.Send<FetchEntityDefinitionDetailCommand, EntityDefinitionDTO?>(
+                new FetchEntityDefinitionDetailCommand(userId, id)
+            );
+
+            return Ok(result);
+        }
         #endregion
     }
 }
