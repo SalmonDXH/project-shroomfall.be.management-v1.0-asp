@@ -1,6 +1,7 @@
 ﻿using API.Helper;
 using Application.Feature.Abstraction;
 using Application.Feature.Design.Command;
+using Application.Features.Design.Command;
 using Contract.DTO.Abstraction;
 using Contract.DTO.Definition.EntityDomain.Component;
 using Contract.DTO.Definition.LocalizationDomain;
@@ -83,6 +84,61 @@ namespace API.Controllers
 
             var result = await dispatcher.Send<FetchEntityDefinitionDetailCommand, EntityDefinitionDTO?>(
                 new FetchEntityDefinitionDetailCommand(userId, id)
+            );
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpGet("items")]
+        public async Task<ActionResult<PagedResponseDTO<ItemDefinitionDTO>>> GetAllItems(
+            [FromQuery] ItemDefinitionQueryDTO queries)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            var result = await dispatcher.Send<FetchItemDefinitionCommand, PagedResponseDTO<ItemDefinitionDTO>>(
+                new FetchItemDefinitionCommand(userId, queries)
+            );
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpGet("locales")]
+        public async Task<ActionResult<List<LocaleDTO>>> GetAllLocales()
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            var result = await dispatcher.Send<FetchLocaleCommand, List<LocaleDTO>>(
+                new FetchLocaleCommand(userId)
+            );
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpGet("localization-entries")]
+        public async Task<ActionResult<PagedResponseDTO<LocalizationEntryDTO>>> GetLocalizationEntries(
+            [FromQuery] LocalizationEntryQueryDTO queries)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            var result = await dispatcher.Send<FetchLocalizationEntryCommand, PagedResponseDTO<LocalizationEntryDTO>>(
+                new FetchLocalizationEntryCommand(userId, queries)
+            );
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpGet("rooms")]
+        public async Task<ActionResult<PagedResponseDTO<RoomDefinitionDTO>>> GetAllRooms(
+            [FromQuery] RoomDefinitionQueryDTO queries)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            var result = await dispatcher.Send<FetchRoomDefinitionCommand, PagedResponseDTO<RoomDefinitionDTO>>(
+                new FetchRoomDefinitionCommand(userId, queries)
             );
 
             return Ok(result);
