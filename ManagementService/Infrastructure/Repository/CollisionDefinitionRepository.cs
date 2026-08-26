@@ -13,7 +13,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public CollisionDefinitionRepository(RelationalDB context) : base(context) { }
+        public CollisionDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         #endregion

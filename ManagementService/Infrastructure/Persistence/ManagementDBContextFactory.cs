@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Infrastructure.Persistence
 {
-    public class RelationalDBFactory : IDesignTimeDbContextFactory<RelationalDB>
+    public class ManagementDBContextFactory : IDesignTimeDbContextFactory<ManagementDBContext>
     {
         #region Attributes
         #endregion
@@ -11,22 +11,22 @@ namespace Infrastructure.Persistence
         #region Properties
         #endregion
 
-        public RelationalDBFactory()
+        public ManagementDBContextFactory()
         {
 
         }
 
         #region Methods
-        public RelationalDB CreateDbContext(
+        public ManagementDBContext CreateDbContext(
             string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<RelationalDB>();
+            var optionsBuilder = new DbContextOptionsBuilder<ManagementDBContext>();
 
             optionsBuilder.UseSqlServer(
                 "Server=localhost;Database=GameServiceDB;Trusted_Connection=True;TrustServerCertificate=True;"
             );
 
-            return new RelationalDB(optionsBuilder.Options);
+            return new ManagementDBContext(optionsBuilder.Options);
         }
         #endregion
     }

@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace Infrastructure.Persistence
 {
-    public class RelationalDB : DbContext
+    public class ManagementDBContext : DbContext
     {
         #region Attributes
         #endregion
@@ -40,7 +40,7 @@ namespace Infrastructure.Persistence
         public DbSet<DefinitionVersionLog> DefinitionVersionLogs { get; set; }
         #endregion
 
-        public RelationalDB(DbContextOptions<RelationalDB> options) : base(options) { }
+        public ManagementDBContext(DbContextOptions<ManagementDBContext> options) : base(options) { }
 
         #region Methods
         protected override void OnModelCreating(ModelBuilder modelBuilder)

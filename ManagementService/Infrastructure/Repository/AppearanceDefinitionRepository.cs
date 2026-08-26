@@ -13,7 +13,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public AppearanceDefinitionRepository(RelationalDB context) : base(context) { }
+        public AppearanceDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         #endregion

@@ -1,6 +1,6 @@
 ﻿using Contract.DTO.Feature.Design.Command;
 
-namespace Application.Features.Design.Command
+namespace Application.Feature.Design.Command
 {
     public class FetchRoomDefinitionCommand
     {

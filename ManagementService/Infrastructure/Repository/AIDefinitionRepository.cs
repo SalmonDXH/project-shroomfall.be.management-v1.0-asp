@@ -13,7 +13,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public AIDefinitionRepository(RelationalDB context) : base(context) { }
+        public AIDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         #endregion

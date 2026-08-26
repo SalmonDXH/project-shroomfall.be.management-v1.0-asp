@@ -9,14 +9,14 @@ namespace Infrastructure.Repository.Base
     {
         #region Attributes
         protected readonly DbSet<T> dbSet;
-        protected readonly RelationalDB context;
+        protected readonly ManagementDBContext context;
         #endregion
 
         #region Properties
         #endregion
 
         public GenericRepository(
-            RelationalDB context)
+            ManagementDBContext context)
         {
             dbSet = context.Set<T>();
             this.context = context;
@@ -66,7 +66,7 @@ namespace Infrastructure.Repository.Base
         #region Properties
         #endregion
 
-        public DefinitionRepository(RelationalDB context) : base(context) { }
+        public DefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public virtual async Task<T?> GetByEntityIdAsync(

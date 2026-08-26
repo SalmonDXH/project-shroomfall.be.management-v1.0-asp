@@ -14,7 +14,7 @@ namespace Infrastructure.Repository.Relational
         #region Properties
         #endregion
 
-        public UserRepository(RelationalDB context) : base(context) { }
+        public UserRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public async Task<User?> GetByEmailAsync(

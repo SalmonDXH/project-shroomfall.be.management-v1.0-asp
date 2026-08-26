@@ -14,7 +14,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public CombatRunDefinitionRepository(RelationalDB context) : base(context) { }
+        public CombatRunDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public override async Task<IEnumerable<CombatRunDefinition>> GetAllAsync()

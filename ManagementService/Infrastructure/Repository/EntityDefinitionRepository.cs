@@ -15,7 +15,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public EntityDefinitionRepository(RelationalDB context) : base(context) { }
+        public EntityDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public async Task<(IEnumerable<EntityDefinition> Items, int TotalCount)> GetPagedDefinitionsAsync(

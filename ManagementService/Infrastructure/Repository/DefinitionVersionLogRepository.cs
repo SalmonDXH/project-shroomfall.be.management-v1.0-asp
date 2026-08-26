@@ -14,7 +14,7 @@ namespace Infrastructure.Repository.Relational
         #region Properties
         #endregion
 
-        public DefinitionVersionLogRepository(RelationalDB context) : base(context) { }
+        public DefinitionVersionLogRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public async Task<DefinitionVersionLog?> GetLatest(

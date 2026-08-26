@@ -13,7 +13,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public LifetimeDefinitionRepository(RelationalDB context) : base(context) { }
+        public LifetimeDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         #endregion

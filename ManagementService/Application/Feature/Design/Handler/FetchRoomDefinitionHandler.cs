@@ -1,5 +1,5 @@
 ﻿using Application.Feature.Abstraction;
-using Application.Features.Design.Command;
+using Application.Feature.Design.Command;
 using Application.Interface.Repository;
 using Application.Interface.Repository.Base;
 using AutoMapper;

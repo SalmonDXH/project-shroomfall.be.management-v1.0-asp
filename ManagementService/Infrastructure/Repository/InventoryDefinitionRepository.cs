@@ -14,7 +14,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public InventoryDefinitionRepository(RelationalDB context) : base(context) { }
+        public InventoryDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public override async Task<InventoryDefinition?> GetByEntityIdAsync(

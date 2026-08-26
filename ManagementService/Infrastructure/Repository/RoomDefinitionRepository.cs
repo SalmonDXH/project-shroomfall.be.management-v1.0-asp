@@ -16,7 +16,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public RoomDefinitionRepository(RelationalDB context) : base(context) { }
+        public RoomDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public override async Task<IEnumerable<RoomDefinition>> GetAllAsync()

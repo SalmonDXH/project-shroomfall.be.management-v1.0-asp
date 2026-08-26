@@ -11,7 +11,7 @@ namespace Infrastructure.Repository.Base
     public class UnitOfWork : IUnitOfWork
     {
         #region Attributes
-        private readonly RelationalDB context;
+        private readonly ManagementDBContext context;
         private readonly IServiceProvider provider;
         private readonly Dictionary<Type, object> repositories = new();
 
@@ -22,7 +22,7 @@ namespace Infrastructure.Repository.Base
         #endregion
 
         public UnitOfWork(
-            RelationalDB context,
+            ManagementDBContext context,
             IServiceProvider provider)
         {
             this.context = context;

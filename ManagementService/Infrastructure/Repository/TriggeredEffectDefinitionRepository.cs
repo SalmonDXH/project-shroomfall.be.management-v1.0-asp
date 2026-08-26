@@ -13,7 +13,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public TriggeredEffectDefinitionRepository(RelationalDB context) : base(context) { }
+        public TriggeredEffectDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         #endregion

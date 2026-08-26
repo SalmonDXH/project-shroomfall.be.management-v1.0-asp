@@ -14,7 +14,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public CharacteristicDefinitionRepository(RelationalDB context) : base(context) { }
+        public CharacteristicDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public override async Task<IEnumerable<CharacteristicDefinition>> GetAllAsync()

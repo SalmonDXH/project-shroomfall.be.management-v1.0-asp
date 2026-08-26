@@ -1,14 +1,12 @@
 ﻿using API.Helper;
 using Application.Feature.Abstraction;
 using Application.Feature.Design.Command;
-using Application.Features.Design.Command;
 using Contract.DTO.Abstraction;
 using Contract.DTO.Definition.EntityDomain.Component;
 using Contract.DTO.Definition.LocalizationDomain;
 using Contract.DTO.Definition.MetaDomain;
 using Contract.DTO.Definition.WorldDomain;
 using Contract.DTO.Feature.Design.Command;
-using Contract.DTO.Feature.Design.Response;
 using Contract.Enum.IdentityDomain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -142,6 +140,76 @@ namespace API.Controllers
             );
 
             return Ok(result);
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpPost("combat-run-definition/upload")]
+        public async Task<IActionResult> ImportCombatRunDefinitions(
+            IFormFile file)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            await dispatcher.Send<ImportCombatRunDefinitionCommand>(
+                new ImportCombatRunDefinitionCommand(file)
+            );
+
+            return Ok();
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpPost("effect-definition/upload")]
+        public async Task<IActionResult> ImportEffectDefinitions(
+            IFormFile file)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            await dispatcher.Send<ImportEffectDefinitionCommand>(
+                new ImportEffectDefinitionCommand(file)
+            );
+
+            return Ok();
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpPost("entity-definition/upload")]
+        public async Task<IActionResult> ImportEntityDefinitions(
+            IFormFile file)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            await dispatcher.Send<ImportEntityDefinitionCommand>(
+                new ImportEntityDefinitionCommand(file)
+            );
+
+            return Ok();
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpPost("item-definition/upload")]
+        public async Task<IActionResult> ImportItemDefinitions(
+            IFormFile file)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            await dispatcher.Send<ImportItemDefinitionCommand>(
+                new ImportItemDefinitionCommand(file)
+            );
+
+            return Ok();
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpPost("room-definition/upload")]
+        public async Task<IActionResult> ImportRoomDefinition(
+            IFormFile file)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            await dispatcher.Send<ImportRoomDefinitionCommand>(
+                new ImportRoomDefinitionCommand(file)
+            );
+
+            return Ok();
         }
         #endregion
     }

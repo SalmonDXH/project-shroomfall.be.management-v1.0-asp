@@ -25,7 +25,7 @@ namespace Infrastructure.Configuration
                     InfrastructureCode.PersistenceConfigurationCode.SqlConnectionStringMissing,
                     "Critical infrastructure configuration missing. Environment variable 'SQL_CONNECTION_STRING' was not found.");
 
-            services.AddDbContext<RelationalDB>(options =>
+            services.AddDbContext<ManagementDBContext>(options =>
                 options.UseSqlServer(sqlConnection));
 
             return services;

@@ -15,7 +15,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public EffectDefinitionRepository(RelationalDB context) : base(context) { }
+        public EffectDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public async Task<(IEnumerable<EffectDefinition> Items, int TotalCount)> GetPagedDefinitionsAsync(

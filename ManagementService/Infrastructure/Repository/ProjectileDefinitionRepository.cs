@@ -13,7 +13,7 @@ namespace Infrastructure.Repository.Relational
         #region Properties
         #endregion
 
-        public ProjectileDefinitionRepository(RelationalDB context) : base(context) { }
+        public ProjectileDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         #endregion

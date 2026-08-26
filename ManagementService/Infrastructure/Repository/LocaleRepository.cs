@@ -14,7 +14,7 @@ namespace Infrastructure.Repository
         #region Properties
         #endregion
 
-        public LocaleRepository(RelationalDB context) : base(context) { }
+        public LocaleRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
         public override async Task<IEnumerable<Locale>> GetAllAsync()
