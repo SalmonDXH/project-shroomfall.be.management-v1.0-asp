@@ -50,6 +50,10 @@ namespace Application.Configuration
             services.AddScoped<IHandler<ImportEntityDefinitionCommand>, ImportEntityDefinitionHandler>();
             services.AddScoped<IHandler<ImportItemDefinitionCommand>, ImportItemDefinitionHandler>();
             services.AddScoped<IHandler<ImportRoomDefinitionCommand>, ImportRoomDefinitionHandler>();
+            services.AddScoped<IHandler<UpdateDefinitionCommand>, UpdateDefinitionHandler>();
+            services.AddScoped<IHandler<UpdateLocalizationEntryCommand>, UpdateLocalizationEntryHandler>();
+            services.AddScoped<IHandler<UpsertCombatRunDefinitionCommand>, UpsertCombatRunDefinitionHandler>();
+            services.AddScoped<IHandler<UpsertEffectDefinitionCommand>, UpsertEffectDefinitionHandler>();
 
             return services;
         }
