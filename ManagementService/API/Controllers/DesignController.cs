@@ -7,6 +7,7 @@ using Contract.DTO.Definition.LocalizationDomain;
 using Contract.DTO.Definition.MetaDomain;
 using Contract.DTO.Definition.WorldDomain;
 using Contract.DTO.Feature.Design.Command;
+using Contract.DTO.Feature.Design.Response;
 using Contract.Enum.IdentityDomain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -263,6 +264,34 @@ namespace API.Controllers
 
             await dispatcher.Send<UpsertEffectDefinitionCommand>(
                 new UpsertEffectDefinitionCommand(userId, dto)
+            );
+
+            return Ok();
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpPost("entity-definition")]
+        public async Task<IActionResult> UpsertEntityDefinition(
+            [FromBody] EntityDefinitionDTO dto)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            await dispatcher.Send<UpsertEntityDefinitionCommand>(
+                new UpsertEntityDefinitionCommand(userId, dto)
+            );
+
+            return Ok();
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpPost("item-definition")]
+        public async Task<IActionResult> UpsertItemDefinition(
+            [FromBody] ItemDefinitionDTO dto)
+        {
+            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+
+            await dispatcher.Send<UpsertItemDefinitionCommand>(
+                new UpsertItemDefinitionCommand(userId, dto)
             );
 
             return Ok();

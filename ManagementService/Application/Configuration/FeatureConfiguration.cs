@@ -9,6 +9,7 @@ using Contract.DTO.Definition.EntityDomain.Component;
 using Contract.DTO.Definition.LocalizationDomain;
 using Contract.DTO.Definition.MetaDomain;
 using Contract.DTO.Definition.WorldDomain;
+using Contract.DTO.Feature.Design.Response;
 using Contract.DTO.Feature.Identity.Response;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -54,6 +55,8 @@ namespace Application.Configuration
             services.AddScoped<IHandler<UpdateLocalizationEntryCommand>, UpdateLocalizationEntryHandler>();
             services.AddScoped<IHandler<UpsertCombatRunDefinitionCommand>, UpsertCombatRunDefinitionHandler>();
             services.AddScoped<IHandler<UpsertEffectDefinitionCommand>, UpsertEffectDefinitionHandler>();
+            services.AddScoped<IHandler<UpsertEntityDefinitionCommand>, UpsertEntityDefinitionHandler>();
+            services.AddScoped<IHandler<UpsertItemDefinitionCommand>, UpsertItemDefinitionHandler>();
 
             return services;
         }
