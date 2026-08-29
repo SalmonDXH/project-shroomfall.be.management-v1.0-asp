@@ -4,6 +4,7 @@ using Application;
 using Infrastructure;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -15,6 +16,18 @@ namespace API
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // ─────────────────────────────
+            // KESTREL
+            // ─────────────────────────────
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(8080, listenOptions =>
+                {
+                    // Allow port 8080 for http2 - grpc
+                    listenOptions.Protocols = HttpProtocols.Http2;
+                });
+            });
 
             // ─────────────────────────────
             // LOGGING
