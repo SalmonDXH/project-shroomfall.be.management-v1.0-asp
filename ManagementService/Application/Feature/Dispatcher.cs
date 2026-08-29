@@ -8,18 +8,16 @@ namespace Application.Feature
     {
         #region Attributes
         private readonly IServiceProvider serviceProvider;
-        private readonly ITelemetryQueue telemetryQueue;
         #endregion
 
         #region Properties
         #endregion
 
         public Dispatcher(
-            IServiceProvider serviceProvider,
-            ITelemetryQueue telemetryQueue)
+            IServiceProvider serviceProvider
+        )
         {
             this.serviceProvider = serviceProvider;
-            this.telemetryQueue = telemetryQueue;
         }
 
         #region Methods

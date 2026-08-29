@@ -20,6 +20,7 @@ namespace Application.Configuration
             services.AddSingleton<TokenService>();
 
             // Design
+            services.AddScoped<CacheBuilder>();
             services.AddScoped<CombatRunDefinitionService>();
             services.AddSingleton<ComponentDiscoveryRegistry>();
             services.AddScoped<DefinitionComponentFactory>();

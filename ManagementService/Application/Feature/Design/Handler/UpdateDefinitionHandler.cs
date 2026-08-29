@@ -1,7 +1,9 @@
 ﻿using Application.Feature.Abstraction;
 using Application.Feature.Design.Command;
+using Application.Interface.Messaging.Publisher;
 using Application.Interface.Repository;
 using Application.Interface.Repository.Base;
+using Application.Service.DesignService;
 using Contract;
 using Domain;
 
@@ -10,30 +12,28 @@ namespace Application.Feature.Design.Handler
     public class UpdateDefinitionHandler : IHandler<UpdateDefinitionCommand>
     {
         #region Attributes
+        private readonly CacheBuilder cacheBuilder;
         private readonly IUnitOfWork uow;
-        //private readonly ICacheProvider cacheLoader;
-        //private readonly IEventBus eventBus;
+        private readonly IDefinitionCachePublisher definitionCachePublisher;
         #endregion
 
         #region Properties
         #endregion
 
         public UpdateDefinitionHandler(
-            IUnitOfWork uow
-            //ICacheProvider cacheLoader,
-            //IEventBus eventBus
-            )
+            CacheBuilder cacheBuilder,
+            IUnitOfWork uow,
+            IDefinitionCachePublisher definitionCachePublisher)
         {
+            this.cacheBuilder = cacheBuilder;
             this.uow = uow;
-            //this.cacheLoader = cacheLoader;
-            //this.eventBus = eventBus;
+            this.definitionCachePublisher = definitionCachePublisher;
         }
 
         #region Methods
         public async Task Handle(
             UpdateDefinitionCommand command)
         {
-            // TODO: Add GRPC or Queue Messaging to handle this command in a distributed system
             var dto = command.DTO;
 
             // Resolve repository
@@ -55,10 +55,13 @@ namespace Application.Feature.Design.Handler
             await definitionVersionLogRepo.AddAsync(log);
             await uow.SaveChangesAsync();
 
-            // Reload cache - Note: improve by using key to reload needed cache only
-            //await cacheLoader.LoadAllAsync();
+            // Build cache data
+            var definitionCache = await cacheBuilder.BuildAsync(nextVersion);
 
-            // Publish realtime invalidation event
+            // Publish update caching
+            await definitionCachePublisher.PublishAsync(definitionCache);
+
+            // TODO: Publish realtime invalidation event
             //eventBus.Publish(new DefinitionUpdatedEvent(key, nextVersion));
         }
         #endregion

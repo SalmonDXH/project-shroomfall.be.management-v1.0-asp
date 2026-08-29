@@ -11,7 +11,6 @@ namespace API.Middleware
         #region Attributes
         private readonly RequestDelegate requestDelegate;
         private readonly ILogger<GlobalExceptionHandler> logger;
-        private readonly ITelemetryQueue telemetryQueue;
 
         private static readonly string defaultErrorCode = APICode.GlobalExceptionHandlerCode.UnexpectedError;
         #endregion
@@ -21,12 +20,11 @@ namespace API.Middleware
 
         public GlobalExceptionHandler(
             RequestDelegate requestDelegate,
-            ILogger<GlobalExceptionHandler> logger,
-            ITelemetryQueue telemetryQueue)
+            ILogger<GlobalExceptionHandler> logger
+            )
         {
             this.requestDelegate = requestDelegate;
             this.logger = logger;
-            this.telemetryQueue = telemetryQueue;
         }
 
         #region Methods
@@ -45,25 +43,6 @@ namespace API.Middleware
                     context.Request.Path,
                     context.Request.Method,
                     context.TraceIdentifier);
-
-                switch (ex)
-                {
-                    case BadRequest badRequest:
-                        telemetryQueue.EnqueueAlert(badRequest.Code, badRequest.Message, TelemetrySeverity.Error);
-                        break;
-                    case NotFound notFound:
-                        telemetryQueue.EnqueueAlert(notFound.Code, notFound.Message, TelemetrySeverity.Error);
-                        break;
-                    case Unauthorized unauthorized:
-                        telemetryQueue.EnqueueAlert(unauthorized.Code, unauthorized.Message, TelemetrySeverity.Error);
-                        break;
-                    case InternalException internalEx:
-                        telemetryQueue.EnqueueAlert(internalEx.Code, internalEx.Message, TelemetrySeverity.Error);
-                        break;
-                    default:
-                        telemetryQueue.EnqueueAlert(defaultErrorCode, ex.Message, TelemetrySeverity.Fatal);
-                        break;
-                }
 
                 await HandleExceptionAsync(context, ex);
             }

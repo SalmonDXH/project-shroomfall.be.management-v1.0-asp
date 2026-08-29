@@ -1,4 +1,4 @@
-
+using API.GrpcService;
 using API.Middleware;
 using Application;
 using Infrastructure;
@@ -17,9 +17,14 @@ namespace API
             var builder = WebApplication.CreateBuilder(args);
 
             // ─────────────────────────────
-            // SERVICES
+            // LOGGING
             // ─────────────────────────────
             builder.Services.AddLogging();
+
+            // ─────────────────────────────
+            // SERVICES
+            // ─────────────────────────────
+            builder.Services.AddGrpc();
             builder.Services.AddControllers();
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure();
@@ -186,6 +191,11 @@ namespace API
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // ─────────────────────────────
+            // GRPC SERVICE
+            // ─────────────────────────────
+            app.MapGrpcService<ManagementGrpcService>();
 
             // ─────────────────────────────
             // HTTP API

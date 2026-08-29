@@ -18,9 +18,6 @@ namespace Infrastructure.Configuration
         public static IServiceCollection AddUtilityConfiguration(
             this IServiceCollection services)
         {
-            // Telemetry queue
-            services.AddSingleton<ITelemetryQueue, TelemetryQueue>();
-
             // JWT token
             services.AddSingleton<ITokenGenerator, TokenGenerator>(sp =>
             {

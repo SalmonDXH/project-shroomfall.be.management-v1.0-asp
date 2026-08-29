@@ -15,6 +15,11 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             // ─────────────────────────────
+            // MESSAGING
+            // ─────────────────────────────
+            services.AddMessagingConfiguration();
+
+            // ─────────────────────────────
             // PERSISTENCES
             // ─────────────────────────────
             services.AddPersistenceConfiguration();
