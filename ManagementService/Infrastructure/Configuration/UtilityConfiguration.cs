@@ -18,7 +18,7 @@ namespace Infrastructure.Configuration
         public static IServiceCollection AddUtilityConfiguration(
             this IServiceCollection services)
         {
-            // JWT token
+            // JWT TOKEN GENERATOR
             services.AddSingleton<ITokenGenerator, TokenGenerator>(sp =>
             {
                 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
@@ -42,7 +42,7 @@ namespace Infrastructure.Configuration
                 return new TokenGenerator(jwtKey, issuer, audience);
             });
 
-            // Steam validation
+            // STEAM VALIDATOR
             services.AddHttpClient<SteamValidator>();
 
             services.AddScoped<ISteamValidator, SteamValidator>(sp =>

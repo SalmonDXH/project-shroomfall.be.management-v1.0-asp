@@ -14,6 +14,7 @@ namespace Application.Configuration
         public static IServiceCollection AddMapperConfiguration(
             this IServiceCollection services)
         {
+            // MAPPER
             services.AddAutoMapper(cfg => { cfg.AddProfile<CommonMapper>(); });
             services.AddAutoMapper(cfg => { cfg.AddProfile<EntityDomainMapper>(); });
             services.AddAutoMapper(cfg => { cfg.AddProfile<IdentityDomainMapper>(); });

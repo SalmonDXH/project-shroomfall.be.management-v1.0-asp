@@ -21,19 +21,18 @@ namespace Infrastructure.Configuration
         {
             // RABBITMQ
             var rabbitHost = Environment.GetEnvironmentVariable("RABBITMQ_HOST");
-            var rabbitUsername = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME");
-            var rabbitPassword = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD");
-
             if (string.IsNullOrWhiteSpace(rabbitHost))
                 throw new InternalException(
                     InfrastructureCode.MessagingConfigurationCode.RabbitMqHostMissing,
                     "Critical infrastructure configuration missing. Environment variable 'RABBITMQ_HOST' was not found.");
 
+            var rabbitUsername = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME");
             if (string.IsNullOrWhiteSpace(rabbitUsername))
                 throw new InternalException(
                     InfrastructureCode.MessagingConfigurationCode.RabbitMqUsernameMissing,
                     "Critical infrastructure configuration missing. Environment variable 'RABBITMQ_USERNAME' was not found.");
 
+            var rabbitPassword = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD");
             if (string.IsNullOrWhiteSpace(rabbitPassword))
                 throw new InternalException(
                     InfrastructureCode.MessagingConfigurationCode.RabbitMqPasswordMissing,

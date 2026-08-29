@@ -12,7 +12,8 @@ namespace Infrastructure
         #endregion
 
         #region Methods
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructure(
+            this IServiceCollection services)
         {
             // ─────────────────────────────
             // MESSAGING

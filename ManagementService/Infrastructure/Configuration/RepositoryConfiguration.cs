@@ -19,10 +19,10 @@ namespace Infrastructure.Configuration
         public static IServiceCollection AddRepositoryConfiguration(
             this IServiceCollection services)
         {
-            // Unit of Work
+            // UNIT OF WORK
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            // Entity domain
+            // ENTITY REPOSITORY
             services.AddScoped<IAIDefinitionRepository, AIDefinitionRepository>();
             services.AddScoped<IAppearanceDefinitionRepository, AppearanceDefinitionRepository>();
             services.AddScoped<ICollisionDefinitionRepository, CollisionDefinitionRepository>();
@@ -33,21 +33,21 @@ namespace Infrastructure.Configuration
             services.AddScoped<ITriggeredEffectDefinitionRepository, TriggeredEffectDefinitionRepository>();
             services.AddScoped<IEntityDefinitionRepository, EntityDefinitionRepository>();
 
-            // Identity domain
+            // IDENTITY REPOSITORY
             services.AddScoped<IUserRepository, UserRepository>();
 
-            // Localization domain
+            // LOCALIZATION REPOSITORY
             services.AddScoped<ILocaleRepository, LocaleRepository>();
 
-            // Meta domain
+            // META REPOSITORY
             services.AddScoped<IEffectDefinitionRepository, EffectDefinitionRepository>();
             services.AddScoped<IItemDefinitionRepository, ItemDefinitionRepository>();
 
-            // World domain
+            // WORLD REPOSITORY
             services.AddScoped<ICombatRunDefinitionRepository, CombatRunDefinitionRepository>();
             services.AddScoped<IRoomDefinitionRepository, RoomDefinitionRepository>();
 
-            // Global
+            // VERSION REPOSITORY
             services.AddScoped<IDefinitionVersionLogRepository, DefinitionVersionLogRepository>();
 
             return services;

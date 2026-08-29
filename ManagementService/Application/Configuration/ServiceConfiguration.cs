@@ -16,10 +16,10 @@ namespace Application.Configuration
         public static IServiceCollection AddServiceConfiguration(
             this IServiceCollection services)
         {
-            // Identity
+            // IDENTITY SERVICE
             services.AddSingleton<TokenService>();
 
-            // Design
+            // DESIGN SERVICE
             services.AddScoped<CacheBuilder>();
             services.AddScoped<CombatRunDefinitionService>();
             services.AddSingleton<ComponentDiscoveryRegistry>();

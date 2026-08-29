@@ -9,7 +9,6 @@ using Contract.DTO.Definition.EntityDomain.Component;
 using Contract.DTO.Definition.LocalizationDomain;
 using Contract.DTO.Definition.MetaDomain;
 using Contract.DTO.Definition.WorldDomain;
-using Contract.DTO.Feature.Design.Response;
 using Contract.DTO.Feature.Identity.Response;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,17 +26,17 @@ namespace Application.Configuration
         public static IServiceCollection AddFeatureConfiguration(
             this IServiceCollection services)
         {
-            // Core
+            // CORE FEATURE
             services.AddScoped<IDispatcher, Dispatcher>();
 
-            // Identity
+            // IDENTITY FEATURE
             services.AddScoped<IHandler<LoginCommand, TokenDTO>, LoginHandler>();
             services.AddScoped<IHandler<RefreshTokenCommand, TokenDTO>, RefreshTokenHandler>();
             services.AddScoped<IHandler<RegisterCommand, TokenDTO>, RegisterHandler>();
             services.AddScoped<IHandler<SteamAuthCommand, TokenDTO>, SteamAuthHandler>();
             services.AddScoped<IHandler<UpdateProfileCommand>, UpdateProfileHandler>();
 
-            // Design
+            // DESIGN FEATURE
             services.AddScoped<IHandler<FetchCombatRunDefinitionCommand, PagedResponseDTO<CombatRunDefinitionDTO>>, FetchCombatRunDefinitionHandler>();
             services.AddScoped<IHandler<FetchEffectDefinitionCommand, PagedResponseDTO<EffectDefinitionDTO>>, FetchEffectDefinitionHandler>();
             services.AddScoped<IHandler<FetchEntityDefinitionCommand, PagedResponseDTO<EntityDefinitionDTO>>, FetchEntityDefinitionHandler>();
