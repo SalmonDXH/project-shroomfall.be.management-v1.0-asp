@@ -24,6 +24,7 @@ namespace Infrastructure.Messaging.Publisher
             GameStartupDTO startup,
             CancellationToken cancellationToken = default)
         {
+            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             await publishEndpoint.Publish(
                 startup,
                 cancellationToken);
