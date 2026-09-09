@@ -8,7 +8,6 @@ using Contract.Enum.IdentityDomain;
 using Domain.DomainException;
 using Domain.IdentityDomain;
 using ResponseCode;
-using System.Data;
 
 namespace Application.Feature.Identity.Handler
 {

@@ -44,7 +44,6 @@ namespace Infrastructure.Configuration
             services.AddScoped<IItemDefinitionRepository, ItemDefinitionRepository>();
 
             // WORLD REPOSITORY
-            services.AddScoped<ICombatRunDefinitionRepository, CombatRunDefinitionRepository>();
             services.AddScoped<IRoomDefinitionRepository, RoomDefinitionRepository>();
 
             // VERSION REPOSITORY

@@ -34,7 +34,6 @@ namespace Infrastructure.Persistence
         public DbSet<EffectDefinition> EffectDefinitions { get; set; }
         public DbSet<ItemDefinition> ItemDefinitions { get; set; }
 
-        public DbSet<CombatRunDefinition> CombatRunDefinitions { get; set; }
         public DbSet<RoomDefinition> RoomDefinitions { get; set; }
 
         public DbSet<DefinitionVersionLog> DefinitionVersionLogs { get; set; }
@@ -783,82 +782,6 @@ namespace Infrastructure.Persistence
             #endregion
 
             #region World Domain
-            modelBuilder.Entity<CombatRunDefinition>(entity =>
-            {
-                // ─────────────────────────────
-                // Table
-                // ─────────────────────────────
-                entity.ToTable("CombatRunDefinitions");
-
-                // ─────────────────────────────
-                // Primary Key
-                // ─────────────────────────────
-                entity.HasKey(x => x.ID);
-
-                // ─────────────────────────────
-                // Properties
-                // ─────────────────────────────
-                entity.Property(x => x.ID)
-                    .IsRequired();
-
-                // ─────────────────────────────
-                // Relationships
-                // ─────────────────────────────
-                entity.HasMany(x => x.Floors)
-                    .WithOne(x => x.CombatRunDefinition)
-                    .HasForeignKey(x => x.CombatRunDefinitionID)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                // ─────────────────────────────
-                // Indexes
-                // ─────────────────────────────
-                entity.HasIndex(x => x.ID);
-            });
-
-            modelBuilder.Entity<Floor>(entity =>
-            {
-                // ─────────────────────────────
-                // Table
-                // ─────────────────────────────
-                entity.ToTable("CombatRunFloors");
-
-                // ─────────────────────────────
-                // Primary Key
-                // ─────────────────────────────
-                entity.HasKey(x => new
-                {
-                    x.CombatRunDefinitionID,
-                    x.Level
-                });
-
-                // ─────────────────────────────
-                // Properties
-                // ─────────────────────────────
-                entity.Property(x => x.Level)
-                    .IsRequired();
-
-                entity.Property(x => x.RoomDefinitionID)
-                    .IsRequired();
-
-                entity.Property(x => x.CombatRunDefinitionID)
-                    .IsRequired();
-
-                // ─────────────────────────────
-                // Relationships
-                // ─────────────────────────────
-                entity.HasOne(x => x.CombatRunDefinition)
-                    .WithMany(x => x.Floors)
-                    .HasForeignKey(x => x.CombatRunDefinitionID)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                // ─────────────────────────────
-                // Indexes
-                // ─────────────────────────────
-                entity.HasIndex(x => x.RoomDefinitionID);
-
-                entity.HasIndex(x => x.Level);
-            });
-
             modelBuilder.Entity<RoomDefinition>(entity =>
             {
                 // ─────────────────────────────

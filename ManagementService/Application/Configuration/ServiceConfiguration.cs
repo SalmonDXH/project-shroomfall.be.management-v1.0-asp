@@ -21,7 +21,6 @@ namespace Application.Configuration
 
             // DESIGN SERVICE
             services.AddScoped<CacheBuilder>();
-            services.AddScoped<CombatRunDefinitionService>();
             services.AddSingleton<ComponentDiscoveryRegistry>();
             services.AddScoped<DefinitionComponentFactory>();
             services.AddScoped<EffectDefinitionService>();

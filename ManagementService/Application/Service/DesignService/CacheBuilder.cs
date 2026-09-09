@@ -44,7 +44,6 @@ namespace Application.Service.DesignService
             var localeRepository = uow.GetRepository<ILocaleRepository>();
             var effectRepository = uow.GetRepository<IEffectDefinitionRepository>();
             var itemRepository = uow.GetRepository<IItemDefinitionRepository>();
-            var combatRunRepository = uow.GetRepository<ICombatRunDefinitionRepository>();
             var roomRepository = uow.GetRepository<IRoomDefinitionRepository>();
 
             // Prepare cache data DTO
@@ -64,7 +63,6 @@ namespace Application.Service.DesignService
                 Projectiles = mapper.Map<List<ProjectileDefinitionDTO>>(await projectileRepository.GetAllAsync()),
                 TriggeredEffects = mapper.Map<List<TriggeredEffectDefinitionDTO>>(await triggeredEffectRepository.GetAllAsync()),
                 Entities = mapper.Map<List<EntityDefinitionDTO>>(await entityRepository.GetAllAsync()),
-                CombatRuns = mapper.Map<List<CombatRunDefinitionDTO>>(await combatRunRepository.GetAllAsync()),
                 Rooms = mapper.Map<List<RoomDefinitionDTO>>(roomDefinitions),
                 EntitySpawnRules = mapper.Map<List<EntitySpawnRuleDTO>>(roomDefinitions.SelectMany(room => room.EntitySpawnRules)),
                 Cells = mapper.Map<List<CellDTO>>(roomDefinitions.SelectMany(room => room.Cells)),

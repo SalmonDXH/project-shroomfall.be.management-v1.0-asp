@@ -1,5 +1,6 @@
 ﻿using Application.Mapper;
 using Microsoft.Extensions.DependencyInjection;
+
 namespace Application.Configuration
 {
     public static class MapperConfiguration

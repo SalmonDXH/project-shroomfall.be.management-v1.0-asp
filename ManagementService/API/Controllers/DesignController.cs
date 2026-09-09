@@ -7,7 +7,6 @@ using Contract.DTO.Definition.LocalizationDomain;
 using Contract.DTO.Definition.MetaDomain;
 using Contract.DTO.Definition.WorldDomain;
 using Contract.DTO.Feature.Design.Command;
-using Contract.DTO.Feature.Design.Response;
 using Contract.Enum.IdentityDomain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,20 +31,6 @@ namespace API.Controllers
         }
 
         #region Methods
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
-        [HttpGet("combat-run")]
-        public async Task<ActionResult<PagedResponseDTO<CombatRunDefinitionDTO>>> GetAllCombatRuns(
-            [FromQuery] CombatRunDefinitionQueryDTO queries)
-        {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
-
-            var result = await dispatcher.Send<FetchCombatRunDefinitionCommand, PagedResponseDTO<CombatRunDefinitionDTO>>(
-                new FetchCombatRunDefinitionCommand(userId, queries)
-            );
-
-            return Ok(result);
-        }
-
         [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
         [HttpGet("effects")]
         public async Task<ActionResult<PagedResponseDTO<EffectDefinitionDTO>>> GetAllEffects(
@@ -144,20 +129,6 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
-        [HttpPost("combat-run-definition/upload")]
-        public async Task<IActionResult> ImportCombatRunDefinitions(
-            IFormFile file)
-        {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
-
-            await dispatcher.Send<ImportCombatRunDefinitionCommand>(
-                new ImportCombatRunDefinitionCommand(file)
-            );
-
-            return Ok();
-        }
-
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
         [HttpPost("effect-definition/upload")]
         public async Task<IActionResult> ImportEffectDefinitions(
             IFormFile file)
@@ -236,20 +207,6 @@ namespace API.Controllers
 
             await dispatcher.Send<UpdateLocalizationEntryCommand>(
                 new UpdateLocalizationEntryCommand(userId, updates)
-            );
-
-            return Ok();
-        }
-
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
-        [HttpPost("combat-run-definition")]
-        public async Task<IActionResult> UpsertCombatRunDefinition(
-            [FromBody] CombatRunDefinitionDTO dto)
-        {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
-
-            await dispatcher.Send<UpsertCombatRunDefinitionCommand>(
-                new UpsertCombatRunDefinitionCommand(userId, dto)
             );
 
             return Ok();

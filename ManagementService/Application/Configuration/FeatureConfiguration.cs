@@ -37,7 +37,6 @@ namespace Application.Configuration
             services.AddScoped<IHandler<UpdateProfileCommand>, UpdateProfileHandler>();
 
             // DESIGN FEATURE
-            services.AddScoped<IHandler<FetchCombatRunDefinitionCommand, PagedResponseDTO<CombatRunDefinitionDTO>>, FetchCombatRunDefinitionHandler>();
             services.AddScoped<IHandler<FetchEffectDefinitionCommand, PagedResponseDTO<EffectDefinitionDTO>>, FetchEffectDefinitionHandler>();
             services.AddScoped<IHandler<FetchEntityDefinitionCommand, PagedResponseDTO<EntityDefinitionDTO>>, FetchEntityDefinitionHandler>();
             services.AddScoped<IHandler<FetchEntityDefinitionDetailCommand, EntityDefinitionDTO>, FetchEntityDefinitionDetailHandler>();
@@ -45,14 +44,12 @@ namespace Application.Configuration
             services.AddScoped<IHandler<FetchLocaleCommand, List<LocaleDTO>>, FetchLocaleHandler>();
             services.AddScoped<IHandler<FetchLocalizationEntryCommand, PagedResponseDTO<LocalizationEntryDTO>>, FetchLocalizationEntryHandler>();
             services.AddScoped<IHandler<FetchRoomDefinitionCommand, PagedResponseDTO<RoomDefinitionDTO>>, FetchRoomDefinitionHandler>();
-            services.AddScoped<IHandler<ImportCombatRunDefinitionCommand>, ImportCombatRunDefinitionHandler>();
             services.AddScoped<IHandler<ImportEffectDefinitionCommand>, ImportEffectDefinitionHandler>();
             services.AddScoped<IHandler<ImportEntityDefinitionCommand>, ImportEntityDefinitionHandler>();
             services.AddScoped<IHandler<ImportItemDefinitionCommand>, ImportItemDefinitionHandler>();
             services.AddScoped<IHandler<ImportRoomDefinitionCommand>, ImportRoomDefinitionHandler>();
             services.AddScoped<IHandler<UpdateDefinitionCommand>, UpdateDefinitionHandler>();
             services.AddScoped<IHandler<UpdateLocalizationEntryCommand>, UpdateLocalizationEntryHandler>();
-            services.AddScoped<IHandler<UpsertCombatRunDefinitionCommand>, UpsertCombatRunDefinitionHandler>();
             services.AddScoped<IHandler<UpsertEffectDefinitionCommand>, UpsertEffectDefinitionHandler>();
             services.AddScoped<IHandler<UpsertEntityDefinitionCommand>, UpsertEntityDefinitionHandler>();
             services.AddScoped<IHandler<UpsertItemDefinitionCommand>, UpsertItemDefinitionHandler>();

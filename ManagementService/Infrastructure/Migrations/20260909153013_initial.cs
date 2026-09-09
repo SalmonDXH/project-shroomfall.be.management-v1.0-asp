@@ -80,17 +80,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CombatRunDefinitions",
-                columns: table => new
-                {
-                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CombatRunDefinitions", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DefinitionVersionLogs",
                 columns: table => new
                 {
@@ -291,25 +280,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CombatRunFloors",
-                columns: table => new
-                {
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    CombatRunDefinitionID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoomDefinitionID = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CombatRunFloors", x => new { x.CombatRunDefinitionID, x.Level });
-                    table.ForeignKey(
-                        name: "FK_CombatRunFloors_CombatRunDefinitions_CombatRunDefinitionID",
-                        column: x => x.CombatRunDefinitionID,
-                        principalTable: "CombatRunDefinitions",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "InventoryEntries",
                 columns: table => new
                 {
@@ -500,21 +470,6 @@ namespace Infrastructure.Migrations
                 column: "ShapeType");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CombatRunDefinitions_ID",
-                table: "CombatRunDefinitions",
-                column: "ID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CombatRunFloors_Level",
-                table: "CombatRunFloors",
-                column: "Level");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CombatRunFloors_RoomDefinitionID",
-                table: "CombatRunFloors",
-                column: "RoomDefinitionID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DefinitionVersionLogs_CreatedAt",
                 table: "DefinitionVersionLogs",
                 column: "CreatedAt");
@@ -659,9 +614,6 @@ namespace Infrastructure.Migrations
                 name: "CollisionDefinitions");
 
             migrationBuilder.DropTable(
-                name: "CombatRunFloors");
-
-            migrationBuilder.DropTable(
                 name: "DefinitionVersionLogs");
 
             migrationBuilder.DropTable(
@@ -693,9 +645,6 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AttributeValues");
-
-            migrationBuilder.DropTable(
-                name: "CombatRunDefinitions");
 
             migrationBuilder.DropTable(
                 name: "EntityDefinitions");

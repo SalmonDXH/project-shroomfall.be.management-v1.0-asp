@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ManagementDBContext))]
-    [Migration("20260829065519_initial")]
+    [Migration("20260909153013_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -595,18 +595,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("Cells", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.WorldDomain.CombatRunDefinition", b =>
-                {
-                    b.Property<string>("ID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ID");
-
-                    b.ToTable("CombatRunDefinitions", (string)null);
-                });
-
             modelBuilder.Entity("Domain.WorldDomain.EntitySpawnRule", b =>
                 {
                     b.Property<Guid>("ID")
@@ -650,27 +638,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("RoomDefinitionID");
 
                     b.ToTable("EntitySpawnRules", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.WorldDomain.Floor", b =>
-                {
-                    b.Property<string>("CombatRunDefinitionID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RoomDefinitionID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("CombatRunDefinitionID", "Level");
-
-                    b.HasIndex("Level");
-
-                    b.HasIndex("RoomDefinitionID");
-
-                    b.ToTable("CombatRunFloors", (string)null);
                 });
 
             modelBuilder.Entity("Domain.WorldDomain.RoomDefinition", b =>
@@ -1054,17 +1021,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("RoomDefinition");
                 });
 
-            modelBuilder.Entity("Domain.WorldDomain.Floor", b =>
-                {
-                    b.HasOne("Domain.WorldDomain.CombatRunDefinition", "CombatRunDefinition")
-                        .WithMany("Floors")
-                        .HasForeignKey("CombatRunDefinitionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CombatRunDefinition");
-                });
-
             modelBuilder.Entity("Domain.WorldDomain.RoomDefinition", b =>
                 {
                     b.OwnsOne("Domain.WorldDomain.RoomPresentationDefinition", "Presentation", b1 =>
@@ -1129,11 +1085,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.LocalizationDomain.Locale", b =>
                 {
                     b.Navigation("LocalizationEntries");
-                });
-
-            modelBuilder.Entity("Domain.WorldDomain.CombatRunDefinition", b =>
-                {
-                    b.Navigation("Floors");
                 });
 
             modelBuilder.Entity("Domain.WorldDomain.RoomDefinition", b =>
