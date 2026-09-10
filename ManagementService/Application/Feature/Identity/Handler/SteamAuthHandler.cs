@@ -59,8 +59,7 @@ namespace Application.Feature.Identity.Handler
             var user = await userRepo.GetBySteamIdAsync(steamId);
 
             // Steam authentication logic
-            string accessToken;
-            string refreshToken;
+            TokenDTO token = new TokenDTO();
             if (user == null)
             {
                 // Apply domain - Create user
@@ -73,7 +72,7 @@ namespace Application.Feature.Identity.Handler
 
                 // Apply domain - Login
                 user.UpdateLastLogin();
-                (accessToken, refreshToken) = tokenService.Generate(user);
+                token = tokenService.Generate(user);
 
                 // Apply persistence
                 await uow.BeginTransactionAsync();
@@ -84,17 +83,13 @@ namespace Application.Feature.Identity.Handler
             {
                 // Apply domain - Login
                 user.UpdateLastLogin();
-                (accessToken, refreshToken) = tokenService.Generate(user);
+                token = tokenService.Generate(user);
 
                 // Apply persistence
                 await uow.SaveChangesAsync();
             }
 
-            return new TokenDTO
-            {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
-            };
+            return token;
         }
         #endregion
     }

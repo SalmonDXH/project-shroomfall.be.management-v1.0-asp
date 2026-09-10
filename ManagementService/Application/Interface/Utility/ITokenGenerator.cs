@@ -2,11 +2,10 @@
 {
     public interface ITokenGenerator
     {
-        string GenerateAccessToken(
+        (string, DateTime) GenerateAccessToken(
             string userId,
             string steamId,
             string role);
-        string GenerateRefreshToken();
-        DateTime GetRefreshTokenExpiry();
+        (string, DateTime) GenerateRefreshToken();
     }
 }

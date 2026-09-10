@@ -47,16 +47,12 @@ namespace Application.Feature.Identity.Handler
             user.ValidateRefreshToken(dto.RefreshToken, DateTime.UtcNow);
 
             // Apply domain - Set token
-            (var accessToken, var newRefreshToken) = tokenService.Generate(user);
+            var token = tokenService.Generate(user);
 
             // Apply persistence
             await uow.SaveChangesAsync();
 
-            return new TokenDTO
-            {
-                AccessToken = accessToken,
-                RefreshToken = newRefreshToken
-            };
+            return token;
         }
         #endregion
     }

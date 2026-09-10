@@ -1,4 +1,5 @@
 ﻿using Application.Interface.Utility;
+using Contract;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -29,7 +30,7 @@ namespace Infrastructure.Utility
         }
 
         #region Methods
-        public string GenerateAccessToken(
+        public (string, DateTime) GenerateAccessToken(
             string userId,
             string steamId,
             string role)
@@ -43,30 +44,26 @@ namespace Infrastructure.Utility
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.UtcNow.AddMinutes(Constraint.ACCESS_TOKEN_EXPIRY_MINUTES);
 
             var token = new JwtSecurityToken(
                 issuer: issuer,
                 audience: audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15),
+                expires: expires,
                 signingCredentials: creds
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return (new JwtSecurityTokenHandler().WriteToken(token), expires);
         }
 
-        public string GenerateRefreshToken()
+        public (string, DateTime) GenerateRefreshToken()
         {
             var randomBytes = new byte[64];
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomBytes);
 
-            return Convert.ToBase64String(randomBytes);
-        }
-
-        public DateTime GetRefreshTokenExpiry()
-        {
-            return DateTime.UtcNow.AddDays(7);
+            return (Convert.ToBase64String(randomBytes), DateTime.UtcNow.AddDays(Constraint.REFRESH_TOKEN_EXPIRY_DAYS));
         }
         #endregion
     }

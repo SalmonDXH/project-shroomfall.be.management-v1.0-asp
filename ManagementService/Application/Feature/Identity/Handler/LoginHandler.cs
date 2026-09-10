@@ -58,16 +58,12 @@ namespace Application.Feature.Identity.Handler
 
             // Apply domain - Login and set token
             user.UpdateLastLogin();
-            (var accessToken, var refreshToken) = tokenService.Generate(user);
+            var token = tokenService.Generate(user);
 
             // Apply persistence
             await uow.SaveChangesAsync();
 
-            return new TokenDTO
-            {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
-            };
+            return token;
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using Application.Interface.Utility;
+using Contract.DTO.Feature.Identity.Response;
 using Domain.IdentityDomain;
 
 namespace Application.Service.IdentityService
@@ -19,14 +20,20 @@ namespace Application.Service.IdentityService
         }
 
         #region Methods
-        public (string access, string refresh) Generate(
+        public TokenDTO Generate(
             User user)
         {
-            var access = tokenGenerator.GenerateAccessToken(user.ID, user.SteamID ?? "", user.Role.ToString());
-            var refresh = tokenGenerator.GenerateRefreshToken();
-            user.SetRefreshToken(refresh, tokenGenerator.GetRefreshTokenExpiry());
+            var (accessToken, accessExpiry) = tokenGenerator.GenerateAccessToken(user.ID, user.SteamID ?? "", user.Role.ToString());
+            var (refreshToken, refreshExpiry) = tokenGenerator.GenerateRefreshToken();
+            user.SetRefreshToken(refreshToken, refreshExpiry);
 
-            return (access, refresh);
+            return new TokenDTO
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                AccessExpiry = accessExpiry,
+                RefreshExpiry = refreshExpiry
+            };
         }
         #endregion
     }
