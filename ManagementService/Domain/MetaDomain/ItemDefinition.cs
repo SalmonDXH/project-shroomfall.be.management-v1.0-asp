@@ -23,7 +23,10 @@ namespace Domain.MetaDomain
         public PlaceableConfig? PlaceableConfig { get; private set; }
         public RangedConfig? RangedConfig { get; private set; }
         public MeleeConfig? MeleeConfig { get; private set; }
+        public TradingConfig? TradingConfig { get; private set; }
 
+        public List<RequiredMaterial> RequiredMaterials { get; private set; } = new();
+        
         public CostConfig CostConfig { get; private set; }
         #endregion
 
@@ -42,6 +45,7 @@ namespace Domain.MetaDomain
             PlaceableConfig? placeableConfig,
             RangedConfig? rangedConfig,
             MeleeConfig? meleeConfig,
+            TradingConfig? tradingConfig,
             CostConfig costConfig)
         {
             ID = id;
@@ -56,6 +60,7 @@ namespace Domain.MetaDomain
             PlaceableConfig = placeableConfig;
             RangedConfig = rangedConfig;
             MeleeConfig = meleeConfig;
+            TradingConfig = tradingConfig;
             CostConfig = costConfig;
         }
 
@@ -71,6 +76,7 @@ namespace Domain.MetaDomain
             PlaceableConfig? placeableConfig,
             RangedConfig? rangedConfig,
             MeleeConfig? meleeConfig,
+            TradingConfig? tradingConfig,
             CostConfig costConfig)
         {
             Type = type;
@@ -83,6 +89,7 @@ namespace Domain.MetaDomain
             PlaceableConfig = placeableConfig;
             RangedConfig = rangedConfig;
             MeleeConfig = meleeConfig;
+            TradingConfig = TradingConfig;
             CostConfig = costConfig;
         }
         #endregion
@@ -138,8 +145,21 @@ namespace Domain.MetaDomain
         public string EntityDefinitionID { get; set; } = string.Empty;
     }
 
+    public class TradingConfig
+    {
+        public string NPCSellerID { get; set; } = string.Empty;
+        public int Price { get; set; }
+    }
+
     public class CostConfig
     {
         public ItemConsumptionMethod Method { get; set; }
+    }
+
+    public class RequiredMaterial
+    {
+        public string ItemDefinitionID { get; set; } = string.Empty;
+        public string MaterialItemDefinitionID { get; set; } = string.Empty;
+        public int Quantity { get; set; }
     }
 }

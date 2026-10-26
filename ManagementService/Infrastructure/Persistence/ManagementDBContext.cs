@@ -765,6 +765,15 @@ namespace Infrastructure.Persistence
                 entity.Navigation(x => x.MeleeConfig)
                     .IsRequired(false);
 
+                entity.OwnsOne(x => x.TradingConfig, trading =>
+                {
+                    trading.Property(x => x.NPCSellerID)
+                        .IsRequired();
+                    trading.Property(x => x.Price)
+                        .IsRequired();
+                });
+                entity.Navigation(x => x.TradingConfig)
+                    .IsRequired(false);
 
                 entity.OwnsOne(x => x.CostConfig, cost =>
                 {
@@ -778,6 +787,30 @@ namespace Infrastructure.Persistence
                 // ─────────────────────────────
                 entity.HasIndex(x => x.Type);
                 entity.HasIndex(x => x.Category);
+            });
+
+            modelBuilder.Entity<RequiredMaterial>(entity =>
+            {
+                entity.ToTable("RequiredMaterials");
+
+                entity.HasKey(x => new
+                {
+                    x.ItemDefinitionID,
+                    x.MaterialItemDefinitionID
+                });
+
+                entity.Property(x => x.Quantity)
+                    .IsRequired();
+
+                entity.HasOne<ItemDefinition>()
+                    .WithMany(x => x.RequiredMaterials)
+                    .HasForeignKey(x => x.ItemDefinitionID)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<ItemDefinition>()
+                    .WithMany()
+                    .HasForeignKey(x => x.MaterialItemDefinitionID)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
             #endregion
 

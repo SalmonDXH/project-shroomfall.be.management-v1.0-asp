@@ -12,5 +12,8 @@ namespace Application.Interface.Repository
             ItemCategory? category,
             int pageNumber,
             int pageSize);
+        Task UpsertRequiredMaterialsAsync(
+            string itemDefinitionId,
+            IEnumerable<RequiredMaterial> requiredMaterials);
     }
 }

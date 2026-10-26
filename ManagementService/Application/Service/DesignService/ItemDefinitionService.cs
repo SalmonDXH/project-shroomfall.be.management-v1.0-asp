@@ -34,6 +34,8 @@ namespace Application.Service.DesignService
             // Validate upsert DTO
             ValidateCategoryConfigurations(dto);
 
+            ValidateRequiredMaterials(dto.Id, dto.RequiredMaterials);
+
             var itemRepo = uow.GetRepository<IItemDefinitionRepository>();
             var existingItem = await itemRepo.GetByIdAsync(dto.Id);
 
@@ -84,6 +86,16 @@ namespace Application.Service.DesignService
                 };
             }
 
+            TradingConfig? tradingConfig = null;
+            if (dto.TradingConfig != null)
+            {
+                tradingConfig = new TradingConfig
+                {
+                    NPCSellerID = dto.TradingConfig.NPCSellerID,
+                    Price = dto.TradingConfig.Price
+                };
+            }
+
             var costConfig = new CostConfig
             {
                 Method = dto.CostConfig.Method,
@@ -108,6 +120,7 @@ namespace Application.Service.DesignService
                     placeableConfig,
                     rangedConfig,
                     meleeConfig,
+                    tradingConfig,
                     costConfig
                 );
 
@@ -128,11 +141,23 @@ namespace Application.Service.DesignService
                     placeableConfig,
                     rangedConfig,
                     meleeConfig,
+                    tradingConfig,
                     costConfig
                 );
 
                 await itemRepo.UpdateAsync(existingItem);
             }
+
+            // Map DTO to domain object
+            var requiredMaterials = dto.RequiredMaterials
+            .Select(x => new RequiredMaterial
+            {
+                MaterialItemDefinitionID = x.MaterialItemDefinitionID,
+                Quantity = x.Quantity
+            })
+            .ToList();
+
+            await itemRepo.UpsertRequiredMaterialsAsync(dto.Id, requiredMaterials);
         }
 
         private static void ValidateCategoryConfigurations(
@@ -166,6 +191,33 @@ namespace Application.Service.DesignService
 
                 throw new BadRequest(code, message);
             }
+        }
+
+        private static void ValidateRequiredMaterials(
+            string itemDefinitionId,
+            IEnumerable<RequiredMaterialDTO> requiredMaterials)
+        {
+            var materials = requiredMaterials.ToList();
+
+            if (materials.Any(x => string.IsNullOrWhiteSpace(x.MaterialItemDefinitionID)))
+                throw new BadRequest(
+                    ApplicationCode.ItemDefinitionServiceCode.InvalidRequiredMaterialsID,
+                    "Material item definition ID is required.");
+
+            if (materials.Any(x => x.Quantity <= 0))
+                throw new BadRequest(
+                    ApplicationCode.ItemDefinitionServiceCode.InvalidRequiredMaterialsQuantity,
+                    "Required material quantity must be greater than zero.");
+
+            if (materials.GroupBy(x => x.MaterialItemDefinitionID).Any(group => group.Count() > 1))
+                throw new BadRequest(
+                    ApplicationCode.ItemDefinitionServiceCode.InvalidRequiredMaterialsDuplicated,
+                    "A required material can only appear once per item definition.");
+
+            if (materials.Any(x => string.Equals(x.MaterialItemDefinitionID, itemDefinitionId, StringComparison.OrdinalIgnoreCase)))
+                throw new BadRequest(
+                    ApplicationCode.ItemDefinitionServiceCode.InvalidRequiredMaterialsSelfCrafted,
+                    "An item cannot require itself as a crafting material.");
         }
 
         private static LocalizedText ForItem(

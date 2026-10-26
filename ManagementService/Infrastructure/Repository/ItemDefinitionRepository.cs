@@ -59,6 +59,50 @@ namespace Infrastructure.Repository
 
             return (items, totalCount);
         }
+
+        public async Task UpsertRequiredMaterialsAsync(
+            string itemDefinitionId,
+            IEnumerable<RequiredMaterial> requiredMaterials)
+        {
+            var requiredMaterialSet = context.Set<RequiredMaterial>();
+            var incomingMaterials = requiredMaterials.ToList();
+
+            // Retrieve existing required material of the item (existing recipe)
+            var existingMaterials = await requiredMaterialSet
+                .Where(x => x.ItemDefinitionID == itemDefinitionId)
+                .ToListAsync();
+
+            // Indexing
+            var incomingById = incomingMaterials.ToDictionary(x => x.MaterialItemDefinitionID);
+            var existingById = existingMaterials.ToDictionary(x => x.MaterialItemDefinitionID);
+
+            // Remove the existing recipe
+            foreach (var existing in existingMaterials)
+            {
+                if (!incomingById.ContainsKey(existing.MaterialItemDefinitionID))
+                {
+                    requiredMaterialSet.Remove(existing);
+                }
+            }
+
+            // Add new recipe
+            foreach (var incoming in incomingMaterials)
+            {
+                if (existingById.TryGetValue(incoming.MaterialItemDefinitionID, out var existing))
+                {
+                    existing.Quantity = incoming.Quantity;
+                }
+                else
+                {
+                    await requiredMaterialSet.AddAsync(new RequiredMaterial
+                    {
+                        ItemDefinitionID = itemDefinitionId,
+                        MaterialItemDefinitionID = incoming.MaterialItemDefinitionID,
+                        Quantity = incoming.Quantity
+                    });
+                }
+            }
+        }
         #endregion
     }
 }

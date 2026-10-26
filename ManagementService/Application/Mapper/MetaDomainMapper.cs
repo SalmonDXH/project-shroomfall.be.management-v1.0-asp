@@ -25,7 +25,9 @@ namespace Application.Mapper
             CreateMap<PlaceableConfig, PlaceableConfigDTO>();
             CreateMap<RangedConfig, RangedConfigDTO>();
             CreateMap<MeleeConfig, MeleeConfigDTO>();
+            CreateMap<TradingConfig, TradingConfigDTO>();
             CreateMap<CostConfig, CostConfigDTO>();
+            CreateMap<RequiredMaterial, RequiredMaterialDTO>();
             CreateMap<ItemPresentationDefinition, ItemPresentationDefinitionDTO>();
             CreateMap<ItemDefinition, ItemDefinitionDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ID));
