@@ -2,17 +2,17 @@
 
 namespace Application.Feature.Identity.Command
 {
-    public class SteamAuthCommand
+    public class GoogleAuthCommand
     {
         #region Attributes
         #endregion
 
         #region Properties
-        public SteamAuthDTO DTO { get; }
+        public GoogleAuthDTO DTO { get; }
         #endregion
 
-        public SteamAuthCommand(
-            SteamAuthDTO dto)
+        public GoogleAuthCommand(
+            GoogleAuthDTO dto)
         {
             DTO = dto;
         }

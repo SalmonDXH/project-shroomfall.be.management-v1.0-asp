@@ -12,62 +12,65 @@ using ResponseCode;
 
 namespace Application.Feature.Identity.Handler
 {
-    public class SteamAuthHandler : IHandler<SteamAuthCommand, TokenDTO>
+    public class GoogleAuthHandler : IHandler<GoogleAuthCommand, TokenDTO>
     {
         #region Attributes
         private readonly IUnitOfWork uow;
-        private readonly ISteamValidator steamValidator;
+        private readonly IGoogleTokenValidator googleTokenValidator;
         private readonly TokenService tokenService;
         #endregion
 
         #region Properties
         #endregion
 
-        public SteamAuthHandler(
+        public GoogleAuthHandler(
             IUnitOfWork uow,
-            ISteamValidator steamValidator,
+            IGoogleTokenValidator googleTokenValidator,
             TokenService tokenService)
         {
             this.uow = uow;
-            this.steamValidator = steamValidator;
+            this.googleTokenValidator = googleTokenValidator;
             this.tokenService = tokenService;
         }
 
         #region Methods
         public async Task<TokenDTO> Handle(
-            SteamAuthCommand command)
+            GoogleAuthCommand command)
         {
             var dto = command.DTO;
 
             // Resolve repository
             var userRepo = uow.GetRepository<IUserRepository>();
 
-            // Validate steam ticket
-            if (string.IsNullOrEmpty(dto.SteamTicket))
+            // Validate google id token
+            if (string.IsNullOrEmpty(dto.IdToken))
                 throw new BadRequest(
-                    ApplicationCode.IdentityHandlerCode.SteamAuthInvalidSteamTicket,
-                    $"Steam ticket is invalid, can not authenticate by steam");
+                    ApplicationCode.IdentityHandlerCode.GoogleIdTokenMissing,
+                    $"Google ID token is invalid, can not authenticate by google");
 
-            // Validate steam ID
-            var steamId = await steamValidator.ValidateTicket(dto.SteamTicket);
-            if (string.IsNullOrEmpty(steamId))
+            // Validate Google ID token
+            var payload = await googleTokenValidator.ValidateTokenAsync(dto.IdToken);
+            if (payload == null || string.IsNullOrEmpty(payload.Subject))
                 throw new Unauthorized(
-                    ApplicationCode.IdentityHandlerCode.SteamAuthValidationFailed,
-                    $"Steam validation was failed, there no such steam ID found");
+                    ApplicationCode.IdentityHandlerCode.GoogleAuthPayloadMissing,
+                    $"Google token payload is invalid or missing subject identifier.");
+
+            // Extract the unique Google User ID (Subject)
+            string googleId = payload.Subject;
 
             // Check existence
-            var user = await userRepo.GetBySteamIdAsync(steamId);
+            var user = await userRepo.GetByGoogleIdAsync(googleId);
 
-            // Steam authentication logic
+            // Google authentication logic
             TokenDTO token = new TokenDTO();
             if (user == null)
             {
                 // Apply domain - Create user
                 user = new User(
                     id: Guid.NewGuid().ToString(),
-                    name: dto.SteamName ?? "Player",
+                    name: payload.Name ?? "Player",
                     role: Role.Player,
-                    steamId: steamId
+                    googleId: googleId
                 );
 
                 // Apply domain - Login

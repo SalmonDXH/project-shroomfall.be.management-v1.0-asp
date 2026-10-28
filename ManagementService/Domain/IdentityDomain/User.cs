@@ -17,7 +17,7 @@ namespace Domain.IdentityDomain
         public string? Gender { get; private set; }
         public string? Email { get; private set; }
         public string? PasswordHash { get; private set; }
-        public string? SteamID { get; private set; }
+        public string? GoogleID { get; private set; }
         public string? RefreshToken { get; private set; }
         public DateTime? RefreshTokenExpiry { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -32,7 +32,7 @@ namespace Domain.IdentityDomain
             Role role,
             Password? password = null,
             string? email = null,
-            string? steamId = null)
+            string? googleId = null)
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new BadRequest(
@@ -44,17 +44,17 @@ namespace Domain.IdentityDomain
                     DomainCode.UserCode.InvalidName,
                     $"User registration failed for ID: '{id}'. Name cannot be null or empty.");
 
-            if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(steamId))
+            if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(googleId))
                 throw new BadRequest(
                     DomainCode.UserCode.MissingAuth,
-                    $"User registration failed for ID: '{id}', Name: '{name}'. Requires either an Email or Steam ID.");
+                    $"User registration failed for ID: '{id}', Name: '{name}'. Requires either an Email or Google ID.");
 
             ID = id;
             Role = role;
             Name = name;
             Email = email;
             PasswordHash = password?.Hash;
-            SteamID = steamId;
+            GoogleID = googleId;
             CreatedAt = DateTime.UtcNow;
             LastLogin = DateTime.UtcNow;
         }

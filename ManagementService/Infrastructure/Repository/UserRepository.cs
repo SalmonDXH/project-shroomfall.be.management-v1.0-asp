@@ -24,11 +24,11 @@ namespace Infrastructure.Repository.Relational
                 .FirstOrDefaultAsync(x => x.Email == email);
         }
 
-        public async Task<User?> GetBySteamIdAsync(
-            string steamId)
+        public async Task<User?> GetByGoogleIdAsync(
+            string googleId)
         {
             return await dbSet
-                .FirstOrDefaultAsync(x => x.SteamID == steamId);
+                .FirstOrDefaultAsync(x => x.GoogleID == googleId);
         }
         #endregion
     }

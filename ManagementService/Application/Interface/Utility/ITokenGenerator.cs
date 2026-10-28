@@ -4,7 +4,7 @@
     {
         (string, DateTime) GenerateAccessToken(
             string userId,
-            string steamId,
+            string googleId,
             string role);
         (string, DateTime) GenerateRefreshToken();
     }

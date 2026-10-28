@@ -23,7 +23,7 @@ namespace Application.Service.IdentityService
         public TokenDTO Generate(
             User user)
         {
-            var (accessToken, accessExpiry) = tokenGenerator.GenerateAccessToken(user.ID, user.SteamID ?? "", user.Role.ToString());
+            var (accessToken, accessExpiry) = tokenGenerator.GenerateAccessToken(user.ID, user.GoogleID ?? "", user.Role.ToString());
             var (refreshToken, refreshExpiry) = tokenGenerator.GenerateRefreshToken();
             user.SetRefreshToken(refreshToken, refreshExpiry);
 

@@ -32,13 +32,13 @@ namespace Infrastructure.Utility
         #region Methods
         public (string, DateTime) GenerateAccessToken(
             string userId,
-            string steamId,
+            string googleId,
             string role)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, userId),
-                new Claim("steamId", steamId ?? ""),
+                new Claim("googleId", googleId ?? ""),
                 new Claim(ClaimTypes.Role, role ?? "")
             };
 

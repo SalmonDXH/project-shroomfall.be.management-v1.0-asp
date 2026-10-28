@@ -18,6 +18,20 @@ namespace Infrastructure.Configuration
         public static IServiceCollection AddUtilityConfiguration(
             this IServiceCollection services)
         {
+            // GOOGLE TOKEN VALIDATOR
+            services.AddHttpClient<GoogleTokenValidator>();
+
+            services.AddScoped<IGoogleTokenValidator, GoogleTokenValidator>(sp =>
+            {
+                var googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+                if (string.IsNullOrWhiteSpace(googleClientId))
+                    throw new InternalException(
+                        InfrastructureCode.UtilityConfigurationCode.GoogleClientIdMissing,
+                        "Critical infrastructure configuration missing. Environment variable 'GOOGLE_CLIENT_ID' was not found.");
+
+                return new GoogleTokenValidator(googleClientId);
+            });
+
             // JWT TOKEN GENERATOR
             services.AddSingleton<ITokenGenerator, TokenGenerator>(sp =>
             {
@@ -40,28 +54,6 @@ namespace Infrastructure.Configuration
                         "Critical infrastructure configuration missing. Environment variable 'JWT_AUDIENCE' was not found.");
 
                 return new TokenGenerator(jwtKey, issuer, audience);
-            });
-
-            // STEAM VALIDATOR
-            services.AddHttpClient<SteamValidator>();
-
-            services.AddScoped<ISteamValidator, SteamValidator>(sp =>
-            {
-                var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient();
-
-                var apiKey = Environment.GetEnvironmentVariable("STEAM_API_KEY");
-                if (string.IsNullOrWhiteSpace(apiKey))
-                    throw new InternalException(
-                        InfrastructureCode.UtilityConfigurationCode.SteamApiKeyMissing,
-                        "Critical infrastructure configuration missing. Environment variable 'STEAM_API_KEY' was not found.");
-
-                var appId = Environment.GetEnvironmentVariable("STEAM_APP_ID");
-                if (string.IsNullOrWhiteSpace(appId))
-                    throw new InternalException(
-                        InfrastructureCode.UtilityConfigurationCode.SteamAppIdMissing,
-                        "Critical infrastructure configuration missing. Environment variable 'STEAM_APP_ID' was not found.");
-
-                return new SteamValidator(httpClient, apiKey, appId);
             });
 
             return services;

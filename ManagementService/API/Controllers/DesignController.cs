@@ -36,7 +36,7 @@ namespace API.Controllers
         public async Task<ActionResult<PagedResponseDTO<EffectDefinitionDTO>>> GetAllEffects(
             [FromQuery] EffectDefinitionQueryDTO queries)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             var result = await dispatcher.Send<FetchEffectDefinitionCommand, PagedResponseDTO<EffectDefinitionDTO>>(
                 new FetchEffectDefinitionCommand(userId, queries)
@@ -50,7 +50,7 @@ namespace API.Controllers
         public async Task<ActionResult<PagedResponseDTO<EntityDefinitionDTO>>> GetAllEntities(
             [FromQuery] EntityDefinitionQueryDTO queries)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             var result = await dispatcher.Send<FetchEntityDefinitionCommand, PagedResponseDTO<EntityDefinitionDTO>>(
                 new FetchEntityDefinitionCommand(userId, queries)
@@ -64,7 +64,7 @@ namespace API.Controllers
         public async Task<ActionResult<EffectDefinitionDTO>> GetEntityDefinitionDetail(
             [FromRoute] string id)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             var result = await dispatcher.Send<FetchEntityDefinitionDetailCommand, EntityDefinitionDTO?>(
                 new FetchEntityDefinitionDetailCommand(userId, id)
@@ -78,7 +78,7 @@ namespace API.Controllers
         public async Task<ActionResult<PagedResponseDTO<ItemDefinitionDTO>>> GetAllItems(
             [FromQuery] ItemDefinitionQueryDTO queries)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             var result = await dispatcher.Send<FetchItemDefinitionCommand, PagedResponseDTO<ItemDefinitionDTO>>(
                 new FetchItemDefinitionCommand(userId, queries)
@@ -91,7 +91,7 @@ namespace API.Controllers
         [HttpGet("locales")]
         public async Task<ActionResult<List<LocaleDTO>>> GetAllLocales()
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             var result = await dispatcher.Send<FetchLocaleCommand, List<LocaleDTO>>(
                 new FetchLocaleCommand(userId)
@@ -105,7 +105,7 @@ namespace API.Controllers
         public async Task<ActionResult<PagedResponseDTO<LocalizationEntryDTO>>> GetLocalizationEntries(
             [FromQuery] LocalizationEntryQueryDTO queries)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             var result = await dispatcher.Send<FetchLocalizationEntryCommand, PagedResponseDTO<LocalizationEntryDTO>>(
                 new FetchLocalizationEntryCommand(userId, queries)
@@ -119,7 +119,7 @@ namespace API.Controllers
         public async Task<ActionResult<PagedResponseDTO<RoomDefinitionDTO>>> GetAllRooms(
             [FromQuery] RoomDefinitionQueryDTO queries)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             var result = await dispatcher.Send<FetchRoomDefinitionCommand, PagedResponseDTO<RoomDefinitionDTO>>(
                 new FetchRoomDefinitionCommand(userId, queries)
@@ -133,7 +133,7 @@ namespace API.Controllers
         public async Task<IActionResult> ImportEffectDefinitions(
             IFormFile file)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<ImportEffectDefinitionCommand>(
                 new ImportEffectDefinitionCommand(file)
@@ -147,7 +147,7 @@ namespace API.Controllers
         public async Task<IActionResult> ImportEntityDefinitions(
             IFormFile file)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<ImportEntityDefinitionCommand>(
                 new ImportEntityDefinitionCommand(file)
@@ -161,7 +161,7 @@ namespace API.Controllers
         public async Task<IActionResult> ImportItemDefinitions(
             IFormFile file)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<ImportItemDefinitionCommand>(
                 new ImportItemDefinitionCommand(file)
@@ -175,7 +175,7 @@ namespace API.Controllers
         public async Task<IActionResult> ImportRoomDefinition(
             IFormFile file)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<ImportRoomDefinitionCommand>(
                 new ImportRoomDefinitionCommand(file)
@@ -189,7 +189,7 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateDefinition(
             [FromBody] UpdateDefinitionDTO dto)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<UpdateDefinitionCommand>(
                 new UpdateDefinitionCommand(userId, dto)
@@ -203,7 +203,7 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateLocalizationEntry(
             [FromBody] LocalizationEntryDTO updates)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<UpdateLocalizationEntryCommand>(
                 new UpdateLocalizationEntryCommand(userId, updates)
@@ -217,7 +217,7 @@ namespace API.Controllers
         public async Task<IActionResult> UpsertEffectDefinition(
             [FromBody] EffectDefinitionDTO dto)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<UpsertEffectDefinitionCommand>(
                 new UpsertEffectDefinitionCommand(userId, dto)
@@ -231,7 +231,7 @@ namespace API.Controllers
         public async Task<IActionResult> UpsertEntityDefinition(
             [FromBody] EntityDefinitionDTO dto)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<UpsertEntityDefinitionCommand>(
                 new UpsertEntityDefinitionCommand(userId, dto)
@@ -245,7 +245,7 @@ namespace API.Controllers
         public async Task<IActionResult> UpsertItemDefinition(
             [FromBody] ItemDefinitionDTO dto)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<UpsertItemDefinitionCommand>(
                 new UpsertItemDefinitionCommand(userId, dto)

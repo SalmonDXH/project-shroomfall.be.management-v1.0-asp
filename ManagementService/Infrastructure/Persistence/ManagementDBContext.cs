@@ -511,7 +511,7 @@ namespace Infrastructure.Persistence
                     .IsRequired(false);
                 entity.Property(e => e.PasswordHash)
                     .IsRequired(false);
-                entity.Property(e => e.SteamID)
+                entity.Property(e => e.GoogleID)
                     .IsRequired(false);
                 entity.Property(e => e.RefreshToken)
                     .IsRequired(false);
@@ -529,9 +529,9 @@ namespace Infrastructure.Persistence
                 entity.HasIndex(e => e.Email)
                     .IsUnique()
                     .HasFilter("[Email] IS NOT NULL");
-                entity.HasIndex(e => e.SteamID)
+                entity.HasIndex(e => e.GoogleID)
                     .IsUnique()
-                    .HasFilter("[SteamID] IS NOT NULL");
+                    .HasFilter("[GoogleID] IS NOT NULL");
             });
             #endregion
 

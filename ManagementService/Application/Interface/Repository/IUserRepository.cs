@@ -7,7 +7,7 @@ namespace Application.Interface.Repository
     {
         Task<User?> GetByEmailAsync(
             string email);
-        Task<User?> GetBySteamIdAsync(
-            string steamId);
+        Task<User?> GetByGoogleIdAsync(
+            string googleId);
     }
 }

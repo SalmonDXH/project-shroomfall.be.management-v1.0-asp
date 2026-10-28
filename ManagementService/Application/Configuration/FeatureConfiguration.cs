@@ -30,10 +30,10 @@ namespace Application.Configuration
             services.AddScoped<IDispatcher, Dispatcher>();
 
             // IDENTITY FEATURE
+            services.AddScoped<IHandler<GoogleAuthCommand, TokenDTO>, GoogleAuthHandler>();
             services.AddScoped<IHandler<LoginCommand, TokenDTO>, LoginHandler>();
             services.AddScoped<IHandler<RefreshTokenCommand, TokenDTO>, RefreshTokenHandler>();
             services.AddScoped<IHandler<RegisterCommand, TokenDTO>, RegisterHandler>();
-            services.AddScoped<IHandler<SteamAuthCommand, TokenDTO>, SteamAuthHandler>();
             services.AddScoped<IHandler<UpdateProfileCommand>, UpdateProfileHandler>();
 
             // DESIGN FEATURE

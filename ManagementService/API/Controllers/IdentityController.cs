@@ -27,12 +27,12 @@ namespace API.Controllers
 
         #region Methods
         [AllowAnonymous]
-        [HttpPost("steam")]
-        public async Task<IActionResult> SteamAuth(
-            [FromBody] SteamAuthDTO dto)
+        [HttpPost("google")]
+        public async Task<IActionResult> GoogleAuth(
+            [FromBody] GoogleAuthDTO dto)
         {
-            var result = await dispatcher.Send<SteamAuthCommand, TokenDTO>(
-                new SteamAuthCommand(dto)
+            var result = await dispatcher.Send<GoogleAuthCommand, TokenDTO>(
+                new GoogleAuthCommand(dto)
             );
 
             return Ok(result);
@@ -67,7 +67,7 @@ namespace API.Controllers
         public async Task<IActionResult> RefreshToken(
             [FromBody] RefreshTokenDTO dto)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             var result = await dispatcher.Send<RefreshTokenCommand, TokenDTO>(
                 new RefreshTokenCommand(userId, dto)
@@ -81,7 +81,7 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateProfile(
             [FromBody] UpdateProfileDTO dto)
         {
-            var (userId, steamId, role) = ClaimReader.GetIdentity(User);
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
 
             await dispatcher.Send<UpdateProfileCommand>(
                 new UpdateProfileCommand(userId, dto)
