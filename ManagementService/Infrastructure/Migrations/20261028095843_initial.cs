@@ -157,6 +157,8 @@ namespace Infrastructure.Migrations
                     PlaceableConfig_EntityDefinitionID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RangedConfig_EntityDefinitionID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MeleeConfig_EntityDefinitionID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TradingConfig_NPCSellerID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TradingConfig_Price = table.Column<int>(type: "int", nullable: true),
                     CostConfig_Method = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConsumableConfig = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EquippableConfig = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -246,7 +248,7 @@ namespace Infrastructure.Migrations
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SteamID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    GoogleID = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshTokenExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -298,6 +300,31 @@ namespace Infrastructure.Migrations
                         principalTable: "InventoryDefinitions",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequiredMaterials",
+                columns: table => new
+                {
+                    ItemDefinitionID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MaterialItemDefinitionID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequiredMaterials", x => new { x.ItemDefinitionID, x.MaterialItemDefinitionID });
+                    table.ForeignKey(
+                        name: "FK_RequiredMaterials_ItemDefinitions_ItemDefinitionID",
+                        column: x => x.ItemDefinitionID,
+                        principalTable: "ItemDefinitions",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RequiredMaterials_ItemDefinitions_MaterialItemDefinitionID",
+                        column: x => x.MaterialItemDefinitionID,
+                        principalTable: "ItemDefinitions",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -575,6 +602,11 @@ namespace Infrastructure.Migrations
                 column: "Velocity");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RequiredMaterials_MaterialItemDefinitionID",
+                table: "RequiredMaterials",
+                column: "MaterialItemDefinitionID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TriggeredEffectDefinitions_EntityDefinitionID",
                 table: "TriggeredEffectDefinitions",
                 column: "EntityDefinitionID",
@@ -588,11 +620,11 @@ namespace Infrastructure.Migrations
                 filter: "[Email] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_SteamID",
+                name: "IX_Users_GoogleID",
                 table: "Users",
-                column: "SteamID",
+                column: "GoogleID",
                 unique: true,
-                filter: "[SteamID] IS NOT NULL");
+                filter: "[GoogleID] IS NOT NULL");
         }
 
         /// <inheritdoc />
@@ -626,9 +658,6 @@ namespace Infrastructure.Migrations
                 name: "InventoryEntries");
 
             migrationBuilder.DropTable(
-                name: "ItemDefinitions");
-
-            migrationBuilder.DropTable(
                 name: "LifetimeDefinitions");
 
             migrationBuilder.DropTable(
@@ -636,6 +665,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProjectileDefinitions");
+
+            migrationBuilder.DropTable(
+                name: "RequiredMaterials");
 
             migrationBuilder.DropTable(
                 name: "TriggeredEffectDefinitions");
@@ -657,6 +689,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Locales");
+
+            migrationBuilder.DropTable(
+                name: "ItemDefinitions");
 
             migrationBuilder.DropTable(
                 name: "CharacteristicDefinitions");

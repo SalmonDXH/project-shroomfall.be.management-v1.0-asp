@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ManagementDBContext))]
-    [Migration("20260909153013_initial")]
+    [Migration("20261028095843_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -402,6 +402,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("GoogleID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("LastLogin")
                         .HasColumnType("datetime2");
 
@@ -422,18 +425,15 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SteamID")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("ID");
 
                     b.HasIndex("Email")
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
 
-                    b.HasIndex("SteamID")
+                    b.HasIndex("GoogleID")
                         .IsUnique()
-                        .HasFilter("[SteamID] IS NOT NULL");
+                        .HasFilter("[GoogleID] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -567,6 +567,24 @@ namespace Infrastructure.Migrations
                     b.HasIndex("Type");
 
                     b.ToTable("ItemDefinitions", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.MetaDomain.RequiredMaterial", b =>
+                {
+                    b.Property<string>("ItemDefinitionID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MaterialItemDefinitionID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemDefinitionID", "MaterialItemDefinitionID");
+
+                    b.HasIndex("MaterialItemDefinitionID");
+
+                    b.ToTable("RequiredMaterials", (string)null);
                 });
 
             modelBuilder.Entity("Domain.WorldDomain.Cell", b =>
@@ -974,6 +992,26 @@ namespace Infrastructure.Migrations
                                 .HasForeignKey("ItemDefinitionID");
                         });
 
+                    b.OwnsOne("Domain.MetaDomain.TradingConfig", "TradingConfig", b1 =>
+                        {
+                            b1.Property<string>("ItemDefinitionID")
+                                .HasColumnType("nvarchar(450)");
+
+                            b1.Property<string>("NPCSellerID")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("Price")
+                                .HasColumnType("int");
+
+                            b1.HasKey("ItemDefinitionID");
+
+                            b1.ToTable("ItemDefinitions");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ItemDefinitionID");
+                        });
+
                     b.Navigation("ConsumableConfig");
 
                     b.Navigation("CostConfig")
@@ -989,6 +1027,23 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("RangedConfig");
+
+                    b.Navigation("TradingConfig");
+                });
+
+            modelBuilder.Entity("Domain.MetaDomain.RequiredMaterial", b =>
+                {
+                    b.HasOne("Domain.MetaDomain.ItemDefinition", null)
+                        .WithMany("RequiredMaterials")
+                        .HasForeignKey("ItemDefinitionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.MetaDomain.ItemDefinition", null)
+                        .WithMany()
+                        .HasForeignKey("MaterialItemDefinitionID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.WorldDomain.Cell", b =>
@@ -1085,6 +1140,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.LocalizationDomain.Locale", b =>
                 {
                     b.Navigation("LocalizationEntries");
+                });
+
+            modelBuilder.Entity("Domain.MetaDomain.ItemDefinition", b =>
+                {
+                    b.Navigation("RequiredMaterials");
                 });
 
             modelBuilder.Entity("Domain.WorldDomain.RoomDefinition", b =>
