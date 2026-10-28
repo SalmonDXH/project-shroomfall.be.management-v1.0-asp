@@ -22,9 +22,15 @@ namespace API
             // ─────────────────────────────
             builder.WebHost.ConfigureKestrel(options =>
             {
+                // REST API — HTTP/1.1
                 options.ListenAnyIP(8080, listenOptions =>
                 {
-                    // Allow port 8080 for http2 - grpc
+                    listenOptions.Protocols = HttpProtocols.Http1;
+                });
+
+                // gRPC — HTTP/2
+                options.ListenAnyIP(8081, listenOptions =>
+                {
                     listenOptions.Protocols = HttpProtocols.Http2;
                 });
             });
