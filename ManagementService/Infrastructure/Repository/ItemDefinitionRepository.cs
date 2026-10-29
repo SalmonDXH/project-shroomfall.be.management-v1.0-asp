@@ -26,7 +26,10 @@ namespace Infrastructure.Repository
             int pageSize)
         {
             // Create the queryable shell
-            var query = dbSet.AsNoTracking().AsQueryable();
+            var query = dbSet
+                .AsNoTracking()
+                .Include(x => x.RequiredMaterials)
+                .AsQueryable();
 
             // Conditionally append dynamic WHERE expressions
             if (type.HasValue)
