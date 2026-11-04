@@ -24,7 +24,6 @@ namespace Infrastructure.Messaging.Publisher
             DefinitionCacheDTO snapshot,
             CancellationToken cancellationToken = default)
         {
-            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAA");
             await publishEndpoint.Publish(
                 snapshot,
                 cancellationToken);
