@@ -215,6 +215,7 @@ namespace API
             // GRPC SERVICE
             // ─────────────────────────────
             app.MapGrpcService<ManagementGrpcService>();
+            app.MapGrpcService<VersionGrpcService>();
 
             // ─────────────────────────────
             // HTTP API
