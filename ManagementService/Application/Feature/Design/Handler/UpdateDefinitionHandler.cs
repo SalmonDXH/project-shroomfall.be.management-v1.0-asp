@@ -60,9 +60,6 @@ namespace Application.Feature.Design.Handler
 
             // Publish update caching
             await definitionCachePublisher.PublishAsync(definitionCache);
-
-            // TODO: Publish realtime invalidation event
-            //eventBus.Publish(new DefinitionUpdatedEvent(key, nextVersion));
         }
         #endregion
     }

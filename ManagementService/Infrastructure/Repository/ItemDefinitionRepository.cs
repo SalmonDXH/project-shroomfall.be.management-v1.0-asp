@@ -18,6 +18,14 @@ namespace Infrastructure.Repository
         public ItemDefinitionRepository(ManagementDBContext context) : base(context) { }
 
         #region Methods
+        public override async Task<IEnumerable<ItemDefinition>> GetAllAsync()
+        {
+            return await dbSet
+                .AsNoTracking()
+                .Include(x => x.RequiredMaterials)
+                .ToListAsync();
+        }
+
         public async Task<(IEnumerable<ItemDefinition> Items, int TotalCount)> GetPagedDefinitionsAsync(
             string? searchTerm,
             ItemType? type,
