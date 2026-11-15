@@ -14,6 +14,9 @@ namespace Application.Interface.Repository
         Task<LocalizationEntry?> GetByKeyAsync(
             string localeCode,
             string key);
+        Task<List<LocalizationEntry>> GetByKeysAsync(
+            string localeCode,
+            IEnumerable<string> keys);
         Task SaveLocalizationEntriesAsync(
             IEnumerable<LocalizationEntry> localizationEntries);
     }

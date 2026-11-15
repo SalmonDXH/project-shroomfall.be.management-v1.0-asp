@@ -44,6 +44,21 @@ namespace Infrastructure.Repository
                 !x.IsDeleted);
         }
 
+        public async Task<List<LocalizationEntry>> GetByKeysAsync(
+            string localeCode,
+            IEnumerable<string> keys)
+        {
+            var normalizedLocale = localeCode.Trim().ToLowerInvariant();
+            var normalizedKeys = keys.Select(k => k.Trim()).ToList();
+
+            return await context.Set<LocalizationEntry>()
+                .Where(x =>
+                    x.LocaleCode == normalizedLocale &&
+                    normalizedKeys.Contains(x.Key) &&
+                    !x.IsDeleted)
+                .ToListAsync();
+        }
+
         public async Task<(IEnumerable<LocalizationEntry> Items, int TotalCount)> GetPagedDefinitionsAsync(
             string? searchTerm,
             string localeCode,

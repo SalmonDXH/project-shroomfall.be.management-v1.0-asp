@@ -47,6 +47,7 @@ namespace Application.Configuration
             services.AddScoped<IHandler<ImportEffectDefinitionCommand>, ImportEffectDefinitionHandler>();
             services.AddScoped<IHandler<ImportEntityDefinitionCommand>, ImportEntityDefinitionHandler>();
             services.AddScoped<IHandler<ImportItemDefinitionCommand>, ImportItemDefinitionHandler>();
+            services.AddScoped<IHandler<ImportLocalizationEntryCommand>, ImportLocalizationEntryHandler>();
             services.AddScoped<IHandler<ImportRoomDefinitionCommand>, ImportRoomDefinitionHandler>();
             services.AddScoped<IHandler<UpdateDefinitionCommand>, UpdateDefinitionHandler>();
             services.AddScoped<IHandler<UpdateLocalizationEntryCommand>, UpdateLocalizationEntryHandler>();

@@ -185,6 +185,21 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [HttpPost("localization-entry/{localeCode}/upload")]
+        public async Task<IActionResult> ImportLocalizationEntries(
+            [FromRoute] string localeCode,
+            IFormFile file)
+        {
+            var (userId, googleId, role) = ClaimReader.GetIdentity(User);
+
+            await dispatcher.Send<ImportLocalizationEntryCommand>(
+                new ImportLocalizationEntryCommand(localeCode, file)
+            );
+
+            return Ok();
+        }
+
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
         [HttpPost("definition")]
         public async Task<IActionResult> UpdateDefinition(
             [FromBody] UpdateDefinitionDTO dto)
