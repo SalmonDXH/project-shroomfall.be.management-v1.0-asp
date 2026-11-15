@@ -2,6 +2,7 @@
 using Application.Feature.Design.Command;
 using Application.Interface.Repository;
 using Application.Interface.Repository.Base;
+using Contract.DTO.Definition.LocalizationDomain;
 using Domain.DomainException;
 using ResponseCode;
 using System.Text.Json;
@@ -33,12 +34,14 @@ namespace Application.Feature.Design.Handler
                     ApplicationCode.DesignHandlerCode.LocalizationFilePayloadEmpty,
                     "The uploaded localization file is null or empty.");
 
-            Dictionary<string, string>? values;
+            List<LocaleDTO>? locales;
             try
             {
-                // Deserialize json file: { "key": "localized value", ... }
+                // Deserialize json file: [ { "Code": "en-US", "LocalizationEntries": [ { "Key", "Value" } ] } ]
                 await using var stream = command.File.OpenReadStream();
-                values = await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(stream);
+                locales = await JsonSerializer.DeserializeAsync<List<LocaleDTO>>(
+                    stream,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
             catch (JsonException ex)
             {
@@ -47,21 +50,29 @@ namespace Application.Feature.Design.Handler
                     $"Failed to deserialize JSON stream due to formatting errors: {ex.Message}");
             }
 
-            if (values == null)
+            if (locales == null)
                 throw new BadRequest(
                     ApplicationCode.DesignHandlerCode.LocalizationFileSchemaParseFailed,
-                    "The uploaded file does not contain a valid key/value localization map.");
+                    "The uploaded file does not contain a valid list of locales.");
+
+            // Take only the locale block matching the url locale
+            var locale = locales.FirstOrDefault(l =>
+                string.Equals(l.Code.Trim(), command.LocaleCode.Trim(), StringComparison.OrdinalIgnoreCase));
+            if (locale == null || locale.LocalizationEntries == null || locale.LocalizationEntries.Count == 0)
+                return;
+
+            var values = new Dictionary<string, string>();
+            foreach (var dto in locale.LocalizationEntries)
+                if (!string.IsNullOrWhiteSpace(dto.Key))
+                    values[dto.Key.Trim()] = dto.Value; // last one wins on duplicate keys
 
             // Only existing keys of this locale are updated, unknown keys are ignored
             var localeRepo = uow.GetRepository<ILocaleRepository>();
             var entries = await localeRepo.GetByKeysAsync(command.LocaleCode, values.Keys);
-            var trimmedValues = new Dictionary<string, string>();
-            foreach (var (key, value) in values)
-                trimmedValues[key.Trim()] = value; // last one wins if keys collide after trimming
 
             foreach (var entry in entries)
             {
-                var value = trimmedValues[entry.Key];
+                var value = values[entry.Key];
                 if (entry.Value != value)
                     entry.Update(value, entry.Description);
             }
