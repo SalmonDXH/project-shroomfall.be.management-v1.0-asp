@@ -88,7 +88,23 @@ namespace Infrastructure.Persistence
                     name: "Designer Workspace",
                     role: Role.Designer,
                     password: sharedPasswordHash,
-                    email: "designer@shroomfall.com")
+                    email: "designer@shroomfall.com"),
+
+                // Game Master Account
+                new User(
+                    id: "usr_game-master_01",
+                    name: "Game Master Workspace",
+                    role: Role.GameMaster,
+                    password: sharedPasswordHash,
+                    email: "gamemaster@shroomfall.com"),
+
+                // Moderator Account
+                new User(
+                    id: "usr_moderator_01",
+                    name: "Moderator Workspace",
+                    role: Role.Moderator,
+                    password: sharedPasswordHash,
+                    email: "moderator@shroomfall.com")
             };
 
             foreach (var userSeed in administrativeSeeds)
