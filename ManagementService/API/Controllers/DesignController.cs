@@ -31,7 +31,7 @@ namespace API.Controllers
         }
 
         #region Methods
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin) + "," + nameof(Role.GameMaster))]
         [HttpGet("effects")]
         public async Task<ActionResult<PagedResponseDTO<EffectDefinitionDTO>>> GetAllEffects(
             [FromQuery] EffectDefinitionQueryDTO queries)
@@ -45,7 +45,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin) + "," + nameof(Role.GameMaster))]
         [HttpGet("entities")]
         public async Task<ActionResult<PagedResponseDTO<EntityDefinitionDTO>>> GetAllEntities(
             [FromQuery] EntityDefinitionQueryDTO queries)
@@ -59,7 +59,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin) + "," + nameof(Role.GameMaster))]
         [HttpGet("entities/{id}")]
         public async Task<ActionResult<EffectDefinitionDTO>> GetEntityDefinitionDetail(
             [FromRoute] string id)
@@ -73,7 +73,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin) + "," + nameof(Role.GameMaster))]
         [HttpGet("items")]
         public async Task<ActionResult<PagedResponseDTO<ItemDefinitionDTO>>> GetAllItems(
             [FromQuery] ItemDefinitionQueryDTO queries)
@@ -87,7 +87,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin) + "," + nameof(Role.GameMaster))]
         [HttpGet("locales")]
         public async Task<ActionResult<List<LocaleDTO>>> GetAllLocales()
         {
@@ -100,7 +100,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin) + "," + nameof(Role.GameMaster))]
         [HttpGet("localization-entries")]
         public async Task<ActionResult<PagedResponseDTO<LocalizationEntryDTO>>> GetLocalizationEntries(
             [FromQuery] LocalizationEntryQueryDTO queries)
@@ -114,7 +114,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin))]
+        [Authorize(Roles = nameof(Role.Designer) + "," + nameof(Role.Admin) + "," + nameof(Role.GameMaster))]
         [HttpGet("rooms")]
         public async Task<ActionResult<PagedResponseDTO<RoomDefinitionDTO>>> GetAllRooms(
             [FromQuery] RoomDefinitionQueryDTO queries)
